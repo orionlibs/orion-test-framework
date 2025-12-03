@@ -51,7 +51,7 @@ public class PerTestExecutionListener implements BeforeEachCallback
             for(Class<?> cls : givenClasses)
             {
                 Given givenAnnotation = cls.getAnnotation(Given.class);
-                if(givenAnnotation.testClass() != null && givenAnnotation.testClass().getName().equals(testClass.getName()))
+                if(givenAnnotation.testClass().getName().equals(Void.class.getName()) || givenAnnotation.testClass().getName().equals(testClass.getName()))
                 {
                     for(Method m : cls.getDeclaredMethods())
                     {
