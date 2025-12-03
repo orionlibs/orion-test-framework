@@ -8,26 +8,18 @@ import com.yapily.orione2e.model.HttpClientConfiguration;
 import com.yapily.orione2e.model.IAMService;
 import java.io.InputStream;
 import java.util.Map;
-import tools.jackson.dataformat.yaml.YAMLMapper;
 
 public class E2ETestBase
 {
     protected AccountDetails accountDetails;
     protected IAMService iamService;
     protected HostedPaymentService hostedPaymentService;
-    YAMLMapper yamlMapper;
-
-
-    public E2ETestBase()
-    {
-        yamlMapper = YAMLMapper.builder().build();
-    }
 
 
     protected void loadTestConfiguration(String configurationFileName)
     {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(configurationFileName);
-        Configuration configuration = yamlMapper.readValue(inputStream, Configuration.class);
+        Configuration configuration = YAMLProcessor.yamlMapper.readValue(inputStream, Configuration.class);
         HttpClientConfiguration.connectionTimeout = configuration.httpClient.get("connectionTimeout");
         HttpClientConfiguration.responseTimeout = configuration.httpClient.get("responseTimeout");
         accountDetails = AccountDetails.builder()
