@@ -1,0 +1,23 @@
+httpClient:
+  connectionTimeout: 3
+  responseTimeout: 4
+account:
+  applicationId: a95658fd-86a2-4af8-8d0a-b32705ae0a60
+  applicationSecret: W7AXkv2sZaKPqM83kDUwpPGDzHBPbJkg
+  userId: 47db84f0-4584-452f-88e6-2fc99289a593
+  applicationUserId: user_0.46995763313053973
+services:
+  iam:
+    host: https://staging.iam.yapily.com
+    endpoints:
+      accessToken: /auth/realms/open-banking/protocol/openid-connect/token
+  hostedPayments:
+    host: https://staging-api.yapily.com
+    endpoints:
+      paymentRequest: /hosted/payment-requests
+      paymentInfo: /hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/info
+      submitInstitution: /hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/submit-institution
+      authorisePayment: /hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/authorise
+      exchangeCode: /exchange-code
+      executePayment: /hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/execute
+      paymentStatus: /hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/status
