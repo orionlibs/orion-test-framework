@@ -19,15 +19,18 @@ public class PerTestExecutionListener implements BeforeEachCallback
     @Override
     public void beforeEach(ExtensionContext context) throws Exception
     {
-        ensureInitialized();
-        for(GivenMethodInvoker invoker : CACHED_INVOKERS)
+        if(context.getTestClass().isPresent())
         {
-            invoker.invoke();
+            ensureInitialized(context.getTestClass().get());
+            for(GivenMethodInvoker invoker : CACHED_INVOKERS)
+            {
+                invoker.invoke();
+            }
         }
     }
 
 
-    private void ensureInitialized() throws Exception
+    private void ensureInitialized(Class<?> testClass)
     {
         if(INIT.get())
         {
@@ -47,19 +50,23 @@ public class PerTestExecutionListener implements BeforeEachCallback
             List<GivenMethodInvoker> invokers = new ArrayList<>();
             for(Class<?> cls : givenClasses)
             {
-                for(Method m : cls.getDeclaredMethods())
+                Given givenAnnotation = cls.getAnnotation(Given.class);
+                if(givenAnnotation.testClass() != null && givenAnnotation.testClass().getName().equals(testClass.getName()))
                 {
-                    if(!m.isAnnotationPresent(Given.class))
+                    for(Method m : cls.getDeclaredMethods())
                     {
-                        continue;
+                        if(!m.isAnnotationPresent(Given.class))
+                        {
+                            continue;
+                        }
+                        if(m.getParameterCount() != 0)
+                        {
+                            throw new IllegalStateException("@Given methods must be no-arg: " + m);
+                        }
+                        boolean isStatic = Modifier.isStatic(m.getModifiers());
+                        m.setAccessible(true);
+                        invokers.add(new GivenMethodInvoker(cls, m, isStatic));
                     }
-                    if(m.getParameterCount() != 0)
-                    {
-                        throw new IllegalStateException("@Given methods must be no-arg: " + m);
-                    }
-                    boolean isStatic = Modifier.isStatic(m.getModifiers());
-                    m.setAccessible(true);
-                    invokers.add(new GivenMethodInvoker(cls, m, isStatic));
                 }
             }
             // preserve discovery order for predictability
