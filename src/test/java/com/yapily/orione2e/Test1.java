@@ -2,23 +2,14 @@ package com.yapily.orione2e;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.yapily.orione2e.api.service.hosted_payments.authorise.AuthoriseAPI;
 import com.yapily.orione2e.api.service.hosted_payments.authorise.AuthoriseResponse;
-import com.yapily.orione2e.api.service.hosted_payments.exchange_code.authorisation.AuthorisationAPI;
 import com.yapily.orione2e.api.service.hosted_payments.exchange_code.authorisation.AuthorisationResponse;
-import com.yapily.orione2e.api.service.hosted_payments.exchange_code.exchange.ExchangeCodeAPI;
 import com.yapily.orione2e.api.service.hosted_payments.exchange_code.exchange.ExchangeCodeResponse;
-import com.yapily.orione2e.api.service.hosted_payments.execute.ExecutePaymentRequestAPI;
 import com.yapily.orione2e.api.service.hosted_payments.execute.ExecutePaymentRequestResponse;
-import com.yapily.orione2e.api.service.hosted_payments.payment_info.GetPaymentRequestInfoAPI;
 import com.yapily.orione2e.api.service.hosted_payments.payment_info.GetPaymentRequestInfoResponse;
-import com.yapily.orione2e.api.service.hosted_payments.payment_request.CreatePaymentRequestAPI;
 import com.yapily.orione2e.api.service.hosted_payments.payment_request.CreatePaymentRequestResponse;
-import com.yapily.orione2e.api.service.hosted_payments.status.GetPaymentRequestStatusAPI;
 import com.yapily.orione2e.api.service.hosted_payments.status.GetPaymentRequestStatusResponse;
-import com.yapily.orione2e.api.service.hosted_payments.submit_institution.SubmitInstitutionAPI;
 import com.yapily.orione2e.api.service.hosted_payments.submit_institution.SubmitInstitutionResponse;
-import com.yapily.orione2e.api.service.iam.IAMGetAccessTokenAPI;
 import com.yapily.orione2e.api.service.iam.IAMGetAccessTokenResponse;
 import java.io.IOException;
 import java.util.Map;
@@ -55,60 +46,60 @@ public class Test1 extends E2ETestBase
     @Test
     void testRedirectPaymentFlow() throws IOException, InterruptedException
     {
-        IAMGetAccessTokenAPI iamGetAccessTokenAPI = new IAMGetAccessTokenAPI(accountDetails.applicationId,
-                        accountDetails.applicationSecret,
-                        iamService.endpoints.get("accessToken"));
-        IAMGetAccessTokenResponse iamResponse = iamGetAccessTokenAPI.call();
+        IAMGetAccessTokenResponse iamResponse = iamService.getAccessTokenAPI(accountDetails.applicationId,
+                                        accountDetails.applicationSecret,
+                                        iamService.endpoints.get("accessToken"))
+                        .call();
         assertThat(iamResponse.getAccessToken()).hasSizeGreaterThan(15);
-        CreatePaymentRequestAPI paymentRequestAPI = new CreatePaymentRequestAPI(accountDetails.userId,
-                        accountDetails.applicationUserId,
-                        hostedPaymentService.endpoints.get("paymentRequest"),
-                        iamResponse.getAccessToken());
-        CreatePaymentRequestResponse createPaymentRequestResponse = paymentRequestAPI.call();
+        CreatePaymentRequestResponse createPaymentRequestResponse = hostedPaymentService.createPaymentRequestAPI(accountDetails.userId,
+                                        accountDetails.applicationUserId,
+                                        hostedPaymentService.endpoints.get("paymentRequest"),
+                                        iamResponse.getAccessToken())
+                        .call();
         assertThat(createPaymentRequestResponse.hostedAuthToken()).hasSizeGreaterThan(15);
         assertThat(createPaymentRequestResponse.hostedPaymentRequestId()).hasSizeGreaterThan(15);
-        GetPaymentRequestInfoAPI getPaymentRequestInfoAPI = new GetPaymentRequestInfoAPI(createPaymentRequestResponse.hostedPaymentRequestId(),
-                        hostedPaymentService.endpoints.get("paymentInfo"),
-                        createPaymentRequestResponse.hostedAuthToken());
-        GetPaymentRequestInfoResponse getPaymentRequestInfoResponse = getPaymentRequestInfoAPI.call();
+        GetPaymentRequestInfoResponse getPaymentRequestInfoResponse = hostedPaymentService.getPaymentRequestInfo(createPaymentRequestResponse.hostedPaymentRequestId(),
+                                        hostedPaymentService.endpoints.get("paymentInfo"),
+                                        createPaymentRequestResponse.hostedAuthToken())
+                        .call();
         assertThat(getPaymentRequestInfoResponse.hostedPaymentId()).hasSizeGreaterThan(15);
-        SubmitInstitutionAPI submitInstitutionAPI = new SubmitInstitutionAPI(createPaymentRequestResponse.hostedPaymentRequestId(),
-                        getPaymentRequestInfoResponse.hostedPaymentId(),
-                        hostedPaymentService.endpoints.get("submitInstitution"),
-                        createPaymentRequestResponse.hostedAuthToken());
-        SubmitInstitutionResponse submitInstitutionResponse = submitInstitutionAPI.call();
+        SubmitInstitutionResponse submitInstitutionResponse = hostedPaymentService.submitInstitutionAPI(createPaymentRequestResponse.hostedPaymentRequestId(),
+                                        getPaymentRequestInfoResponse.hostedPaymentId(),
+                                        hostedPaymentService.endpoints.get("submitInstitution"),
+                                        createPaymentRequestResponse.hostedAuthToken())
+                        .call();
         assertThat(submitInstitutionResponse.hostedPaymentRequestId()).hasSizeGreaterThan(15);
-        AuthoriseAPI authoriseAPI = new AuthoriseAPI(createPaymentRequestResponse.hostedPaymentRequestId(),
-                        getPaymentRequestInfoResponse.hostedPaymentId(),
-                        hostedPaymentService.endpoints.get("authorisePayment"),
-                        createPaymentRequestResponse.hostedAuthToken());
-        AuthoriseResponse authoriseResponse = authoriseAPI.call();
+        AuthoriseResponse authoriseResponse = hostedPaymentService.authoriseAPI(createPaymentRequestResponse.hostedPaymentRequestId(),
+                                        getPaymentRequestInfoResponse.hostedPaymentId(),
+                                        hostedPaymentService.endpoints.get("authorisePayment"),
+                                        createPaymentRequestResponse.hostedAuthToken())
+                        .call();
         assertThat(authoriseResponse.authorisationUrl()).hasSizeGreaterThan(15);
-        AuthorisationAPI authorisationAPI = new AuthorisationAPI(authoriseResponse.authorisationUrl());
-        AuthorisationResponse authorisationResponse = authorisationAPI.call();
+        AuthorisationResponse authorisationResponse = hostedPaymentService.authorisationAPI(authoriseResponse.authorisationUrl())
+                        .call();
         assertThat(authorisationResponse.location()).hasSizeGreaterThan(15);
         assertThat(authorisationResponse.code()).hasSizeGreaterThan(15);
         assertThat(authorisationResponse.idToken()).hasSizeGreaterThan(15);
         assertThat(authorisationResponse.state()).hasSizeGreaterThan(15);
-        ExchangeCodeAPI exchangeCodeAPI = new ExchangeCodeAPI(authorisationResponse.code(),
-                        authorisationResponse.idToken(),
-                        authorisationResponse.state(),
-                        hostedPaymentService.endpoints.get("exchangeCode"),
-                        iamResponse.getAccessToken());
-        ExchangeCodeResponse exchangeCodeResponse = exchangeCodeAPI.call();
+        ExchangeCodeResponse exchangeCodeResponse = hostedPaymentService.exchangeCodeAPI(authorisationResponse.code(),
+                                        authorisationResponse.idToken(),
+                                        authorisationResponse.state(),
+                                        hostedPaymentService.endpoints.get("exchangeCode"),
+                                        iamResponse.getAccessToken())
+                        .call();
         assertThat(exchangeCodeResponse.consentToken()).hasSizeGreaterThan(15);
-        ExecutePaymentRequestAPI executePaymentRequestAPI = new ExecutePaymentRequestAPI(authorisationResponse.code(),
-                        authorisationResponse.idToken(),
-                        authorisationResponse.state(),
-                        hostedPaymentService.endpoints.get("executePayment"),
-                        iamResponse.getAccessToken());
-        ExecutePaymentRequestResponse executePaymentRequestResponse = executePaymentRequestAPI.call();
+        ExecutePaymentRequestResponse executePaymentRequestResponse = hostedPaymentService.executePaymentRequestAPI(authorisationResponse.code(),
+                                        authorisationResponse.idToken(),
+                                        authorisationResponse.state(),
+                                        hostedPaymentService.endpoints.get("executePayment"),
+                                        iamResponse.getAccessToken())
+                        .call();
         assertThat(executePaymentRequestResponse.authorisationUrl()).hasSizeGreaterThan(15);
-        GetPaymentRequestStatusAPI getPaymentRequestStatusAPI = new GetPaymentRequestStatusAPI(createPaymentRequestResponse.hostedPaymentRequestId(),
-                        getPaymentRequestInfoResponse.hostedPaymentId(),
-                        hostedPaymentService.endpoints.get("paymentStatus"),
-                        iamResponse.getAccessToken());
-        GetPaymentRequestStatusResponse getPaymentRequestStatusResponse = getPaymentRequestStatusAPI.call();
+        GetPaymentRequestStatusResponse getPaymentRequestStatusResponse = hostedPaymentService.getPaymentRequestStatusAPI(createPaymentRequestResponse.hostedPaymentRequestId(),
+                                        getPaymentRequestInfoResponse.hostedPaymentId(),
+                                        hostedPaymentService.endpoints.get("paymentStatus"),
+                                        iamResponse.getAccessToken())
+                        .call();
         assertThat(getPaymentRequestStatusResponse.phases().contains("FINISHED")).isTrue();
     }
 }
