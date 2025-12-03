@@ -13,6 +13,8 @@ import com.yapily.orione2e.api.service.hosted_payments.submit_institution.Submit
 import com.yapily.orione2e.api.service.iam.IAMGetAccessTokenResponse;
 import com.yapily.orione2e.lifecycle.AfterEachTestExecutionListener;
 import com.yapily.orione2e.lifecycle.BeforeEachTestExecutionListener;
+import com.yapily.orione2e.retry.Retry;
+import com.yapily.orione2e.retry.RetryExtension;
 import com.yapily.orione2e.utils.AssertionUtils;
 import java.io.IOException;
 import java.util.Map;
@@ -21,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(BeforeEachTestExecutionListener.class)
 @ExtendWith(AfterEachTestExecutionListener.class)
+@ExtendWith(RetryExtension.class)
 public class Test1 extends E2ETestBase
 {
     public Test1()
@@ -52,6 +55,7 @@ public class Test1 extends E2ETestBase
 
 
     @Test
+    @Retry(attempts = 3, delayMs = 200)
     void testRedirectPaymentFlow() throws IOException, InterruptedException
     {
         IAMGetAccessTokenResponse iamResponse = iamService.getAccessTokenAPI(accountDetails.applicationId,
