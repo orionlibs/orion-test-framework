@@ -42,13 +42,13 @@ public class Test1 extends E2ETestBase
         Map<String, String> iamEndpoints = iamService.endpoints;
         assertThat(iamEndpoints.get("accessToken")).isEqualTo("https://staging.iam.yapily.com/auth/realms/open-banking/protocol/openid-connect/token");
         Map<String, String> hostedEndpoints = hostedPaymentService.endpoints;
-        assertThat(hostedEndpoints.get("paymentRequest")).isEqualTo("https://staging.iam.yapily.com/hosted/payment-requests");
-        assertThat(hostedEndpoints.get("paymentInfo")).isEqualTo("https://staging.iam.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/info");
-        assertThat(hostedEndpoints.get("submitInstitution")).isEqualTo("https://staging.iam.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/submit-institution");
-        assertThat(hostedEndpoints.get("authorisePayment")).isEqualTo("https://staging.iam.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/authorise");
-        assertThat(hostedEndpoints.get("executePayment")).isEqualTo("https://staging.iam.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/execute");
-        assertThat(hostedEndpoints.get("exchangeCode")).isEqualTo("https://staging.iam.yapily.com/exchange-code");
-        assertThat(hostedEndpoints.get("paymentStatus")).isEqualTo("https://staging.iam.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/status");
+        assertThat(hostedEndpoints.get("paymentRequest")).isEqualTo("https://staging-api.yapily.com/hosted/payment-requests");
+        assertThat(hostedEndpoints.get("paymentInfo")).isEqualTo("https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/info");
+        assertThat(hostedEndpoints.get("submitInstitution")).isEqualTo("https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/submit-institution");
+        assertThat(hostedEndpoints.get("authorisePayment")).isEqualTo("https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/authorise");
+        assertThat(hostedEndpoints.get("executePayment")).isEqualTo("https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/execute");
+        assertThat(hostedEndpoints.get("exchangeCode")).isEqualTo("https://staging-api.yapily.com/exchange-code");
+        assertThat(hostedEndpoints.get("paymentStatus")).isEqualTo("https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/status");
     }
 
 
