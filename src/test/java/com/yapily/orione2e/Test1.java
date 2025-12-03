@@ -11,10 +11,10 @@ import com.yapily.orione2e.api.service.hosted_payments.payment_request.CreatePay
 import com.yapily.orione2e.api.service.hosted_payments.status.GetPaymentRequestStatusResponse;
 import com.yapily.orione2e.api.service.hosted_payments.submit_institution.SubmitInstitutionResponse;
 import com.yapily.orione2e.api.service.iam.IAMGetAccessTokenResponse;
-import com.yapily.orione2e.lifecycle.AfterEachTestExecutionListener;
-import com.yapily.orione2e.lifecycle.BeforeEachTestExecutionListener;
-import com.yapily.orione2e.retry.Retry;
-import com.yapily.orione2e.retry.RetryExtension;
+import com.yapily.orione2e.extension.lifecycle.AfterEachTestExecutionListener;
+import com.yapily.orione2e.extension.lifecycle.BeforeEachTestExecutionListener;
+import com.yapily.orione2e.extension.retry.Retry;
+import com.yapily.orione2e.extension.retry.RetryExtension;
 import com.yapily.orione2e.utils.AssertionUtils;
 import java.io.IOException;
 import java.util.Map;

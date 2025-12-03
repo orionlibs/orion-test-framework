@@ -1,4 +1,4 @@
-package com.yapily.orione2e.retry;
+package com.yapily.orione2e.extension.lifecycle;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,10 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
-public @interface Retry
+public @interface Given
 {
-    int attempts() default 2;
-
-
-    long delayMs() default 0;
+    Class<?> testClass() default Void.class;
 }

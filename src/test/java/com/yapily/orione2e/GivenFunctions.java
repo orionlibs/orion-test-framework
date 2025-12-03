@@ -1,6 +1,6 @@
 package com.yapily.orione2e;
 
-import com.yapily.orione2e.lifecycle.Given;
+import com.yapily.orione2e.extension.lifecycle.Given;
 
 @Given(testClass = Test1.class)
 public class GivenFunctions

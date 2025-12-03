@@ -1,4 +1,4 @@
-package com.yapily.orione2e.retry;
+package com.yapily.orione2e.extension.retry;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

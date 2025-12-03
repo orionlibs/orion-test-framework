@@ -1,6 +1,6 @@
 package com.yapily.orione2e;
 
-import com.yapily.orione2e.lifecycle.AfterEach;
+import com.yapily.orione2e.extension.lifecycle.AfterEach;
 
 @AfterEach(testClass = Test1.class)
 public class AfterEachFunctions

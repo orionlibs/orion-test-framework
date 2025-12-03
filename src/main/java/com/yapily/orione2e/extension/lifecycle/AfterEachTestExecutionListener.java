@@ -1,4 +1,4 @@
-package com.yapily.orione2e.lifecycle;
+package com.yapily.orione2e.extension.lifecycle;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;

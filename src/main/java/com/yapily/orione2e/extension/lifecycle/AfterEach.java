@@ -1,4 +1,4 @@
-package com.yapily.orione2e.lifecycle;
+package com.yapily.orione2e.extension.lifecycle;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
