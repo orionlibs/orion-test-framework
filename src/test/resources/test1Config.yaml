@@ -2,14 +2,14 @@ httpClient:
   connectionTimeout: 3
   responseTimeout: 4
 account:
-  #applicationId: a95658fd-86a2-4af8-8d0a-b32705ae0a60
-  #applicationSecret: W7AXkv2sZaKPqM83kDUwpPGDzHBPbJkg
-  #userId: 47db84f0-4584-452f-88e6-2fc99289a593
-  #applicationUserId: user_0.46995763313053973
-  applicationId: ba1cce76-f93f-4586-8409-3a422029e616
-  applicationSecret: Aqm37Ov1wSANjCH6HhVGE97fCmKBAx7n
-  userId: 024d04c2-44ce-4f2e-b790-1fac408a5069
-  applicationUserId: user_0.3311419315511759
+  applicationId: a95658fd-86a2-4af8-8d0a-b32705ae0a60
+  applicationSecret: W7AXkv2sZaKPqM83kDUwpPGDzHBPbJkg
+  userId: 47db84f0-4584-452f-88e6-2fc99289a593
+  applicationUserId: user_0.46995763313053973
+  #applicationId: ba1cce76-f93f-4586-8409-3a422029e616
+  #applicationSecret: Aqm37Ov1wSANjCH6HhVGE97fCmKBAx7n
+  #userId: 024d04c2-44ce-4f2e-b790-1fac408a5069
+#applicationUserId: user_0.3311419315511759
 services:
   iam:
     host: https://staging.iam.yapily.com
