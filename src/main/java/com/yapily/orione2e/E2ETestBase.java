@@ -6,6 +6,7 @@ import com.yapily.orione2e.model.Configuration.Service;
 import com.yapily.orione2e.model.HostedPaymentService;
 import com.yapily.orione2e.model.HttpClientConfiguration;
 import com.yapily.orione2e.model.IAMService;
+import com.yapily.orione2e.utils.YAMLProcessor;
 import java.io.InputStream;
 import java.util.Map;
 

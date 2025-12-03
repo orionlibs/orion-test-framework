@@ -1,6 +1,7 @@
 package com.yapily.orione2e;
 
 import com.yapily.orione2e.glue.Glue;
+import com.yapily.orione2e.utils.YAMLProcessor;
 import tools.jackson.dataformat.yaml.YAMLMapper;
 
 @Glue

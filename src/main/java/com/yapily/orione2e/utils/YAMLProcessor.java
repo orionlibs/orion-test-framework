@@ -1,4 +1,4 @@
-package com.yapily.orione2e;
+package com.yapily.orione2e.utils;
 
 import tools.jackson.dataformat.yaml.YAMLMapper;
 

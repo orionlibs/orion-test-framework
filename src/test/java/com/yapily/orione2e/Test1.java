@@ -13,6 +13,7 @@ import com.yapily.orione2e.api.service.hosted_payments.submit_institution.Submit
 import com.yapily.orione2e.api.service.iam.IAMGetAccessTokenResponse;
 import com.yapily.orione2e.lifecycle.AfterEachTestExecutionListener;
 import com.yapily.orione2e.lifecycle.BeforeEachTestExecutionListener;
+import com.yapily.orione2e.utils.AssertionUtils;
 import java.io.IOException;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -31,20 +32,22 @@ public class Test1 extends E2ETestBase
     @Test
     void testConfiguration()
     {
-        assertThat(accountDetails.applicationId).isEqualTo("a95658fd-86a2-4af8-8d0a-b32705ae0a60");
-        assertThat(accountDetails.applicationSecret).isEqualTo("W7AXkv2sZaKPqM83kDUwpPGDzHBPbJkg");
-        assertThat(accountDetails.userId).isEqualTo("47db84f0-4584-452f-88e6-2fc99289a593");
-        assertThat(accountDetails.applicationUserId).isEqualTo("user_0.46995763313053973");
+        AssertionUtils.assertPublicInstanceFieldValuesContainExactly(accountDetails,
+                        "a95658fd-86a2-4af8-8d0a-b32705ae0a60",
+                        "W7AXkv2sZaKPqM83kDUwpPGDzHBPbJkg",
+                        "47db84f0-4584-452f-88e6-2fc99289a593",
+                        "user_0.46995763313053973");
         Map<String, String> iamEndpoints = iamService.endpoints;
         assertThat(iamEndpoints.get("accessToken")).isEqualTo("https://staging.iam.yapily.com/auth/realms/open-banking/protocol/openid-connect/token");
         Map<String, String> hostedEndpoints = hostedPaymentService.endpoints;
-        assertThat(hostedEndpoints.get("paymentRequest")).isEqualTo("https://staging-api.yapily.com/hosted/payment-requests");
-        assertThat(hostedEndpoints.get("paymentInfo")).isEqualTo("https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/info");
-        assertThat(hostedEndpoints.get("submitInstitution")).isEqualTo("https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/submit-institution");
-        assertThat(hostedEndpoints.get("authorisePayment")).isEqualTo("https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/authorise");
-        assertThat(hostedEndpoints.get("executePayment")).isEqualTo("https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/execute");
-        assertThat(hostedEndpoints.get("exchangeCode")).isEqualTo("https://staging-api.yapily.com/exchange-code");
-        assertThat(hostedEndpoints.get("paymentStatus")).isEqualTo("https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/status");
+        AssertionUtils.assertMapValuesContainExactly(hostedEndpoints,
+                        "https://staging-api.yapily.com/hosted/payment-requests",
+                        "https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/info",
+                        "https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/submit-institution",
+                        "https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/authorise",
+                        "https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/execute",
+                        "https://staging-api.yapily.com/exchange-code",
+                        "https://staging-api.yapily.com/hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/status");
     }
 
 
