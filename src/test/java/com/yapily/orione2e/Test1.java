@@ -58,7 +58,7 @@ public class Test1 extends E2ETestBase
                         .call();
         assertThat(createPaymentRequestResponse.hostedAuthToken()).hasSizeGreaterThan(15);
         assertThat(createPaymentRequestResponse.hostedPaymentRequestId()).hasSizeGreaterThan(15);
-        GetPaymentRequestInfoResponse getPaymentRequestInfoResponse = hostedPaymentService.getPaymentRequestInfo(createPaymentRequestResponse.hostedPaymentRequestId(),
+        GetPaymentRequestInfoResponse getPaymentRequestInfoResponse = hostedPaymentService.getPaymentRequestInfoAPI(createPaymentRequestResponse.hostedPaymentRequestId(),
                                         hostedPaymentService.endpoints.get("paymentInfo"),
                                         createPaymentRequestResponse.hostedAuthToken())
                         .call();

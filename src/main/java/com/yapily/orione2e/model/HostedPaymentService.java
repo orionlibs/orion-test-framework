@@ -29,7 +29,7 @@ public class HostedPaymentService
     }
 
 
-    public GetPaymentRequestInfoAPI getPaymentRequestInfo(String paymentRequestId, String endpoint, String jwt)
+    public GetPaymentRequestInfoAPI getPaymentRequestInfoAPI(String paymentRequestId, String endpoint, String jwt)
     {
         return new GetPaymentRequestInfoAPI(paymentRequestId, endpoint, jwt);
     }
