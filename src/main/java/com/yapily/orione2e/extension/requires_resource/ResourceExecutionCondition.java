@@ -1,10 +1,7 @@
 package com.yapily.orione2e.extension.requires_resource;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import com.yapily.orione2e.utils.NetUtils;
 import java.lang.reflect.Method;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.time.Duration;
 import java.util.Optional;
 import org.junit.jupiter.api.extension.ConditionEvaluationResult;
@@ -60,7 +57,7 @@ public class ResourceExecutionCondition implements ExecutionCondition
         long timeoutMs = Math.max(1, rr.timeoutMs());
         try
         {
-            boolean ok = canConnectTcp(host, port, Duration.ofMillis(timeoutMs));
+            boolean ok = NetUtils.canConnectTcp(host, port, Duration.ofMillis(timeoutMs));
             if(ok)
             {
                 return ConditionEvaluationResult.enabled(String.format("Resource reachable: %s:%d (%s)", host, port, rr.description()));
@@ -84,40 +81,5 @@ public class ResourceExecutionCondition implements ExecutionCondition
     private ConditionEvaluationResult handleCheckFailure(String msg, Exception e)
     {
         return ConditionEvaluationResult.disabled("Check failed (treating as missing): " + msg + " -> " + e);
-    }
-
-
-    // Attempts to open a TCP connection to host:port with a short timeout.
-    private static boolean canConnectTcp(String host, int port, Duration timeout)
-    {
-        try(Socket socket = new Socket())
-        {
-            socket.connect(new InetSocketAddress(host, port), (int)timeout.toMillis());
-            return true;
-        }
-        catch(Exception e)
-        {
-            return false;
-        }
-    }
-
-
-    @SuppressWarnings("unused")
-    private static String readProcessOutput(Process p)
-    {
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream())))
-        {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while((line = br.readLine()) != null)
-            {
-                sb.append(line).append('\n');
-            }
-            return sb.toString();
-        }
-        catch(Exception e)
-        {
-            return "";
-        }
     }
 }
