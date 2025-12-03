@@ -11,10 +11,13 @@ import com.yapily.orione2e.api.service.hosted_payments.payment_request.CreatePay
 import com.yapily.orione2e.api.service.hosted_payments.status.GetPaymentRequestStatusResponse;
 import com.yapily.orione2e.api.service.hosted_payments.submit_institution.SubmitInstitutionResponse;
 import com.yapily.orione2e.api.service.iam.IAMGetAccessTokenResponse;
+import com.yapily.orione2e.lifecycle.PerTestExecutionListener;
 import java.io.IOException;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(PerTestExecutionListener.class)
 public class Test1 extends E2ETestBase
 {
     public Test1()
