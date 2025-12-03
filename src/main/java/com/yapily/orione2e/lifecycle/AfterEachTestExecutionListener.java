@@ -6,23 +6,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.reflections.Reflections;
 
-public class PerTestExecutionListener implements BeforeEachCallback
+public class AfterEachTestExecutionListener implements AfterEachCallback
 {
-    private static final List<GivenMethodInvoker> CACHED_INVOKERS = new ArrayList<>();
+    private static final List<AfterEachMethodInvoker> CACHED_INVOKERS = new ArrayList<>();
     private static final AtomicBoolean INIT = new AtomicBoolean(false);
 
 
     @Override
-    public void beforeEach(ExtensionContext context) throws Exception
+    public void afterEach(ExtensionContext context) throws Exception
     {
         if(context.getTestClass().isPresent())
         {
             ensureInitialized(context.getTestClass().get());
-            for(GivenMethodInvoker invoker : CACHED_INVOKERS)
+            for(AfterEachMethodInvoker invoker : CACHED_INVOKERS)
             {
                 invoker.invoke();
             }
@@ -42,30 +42,30 @@ public class PerTestExecutionListener implements BeforeEachCallback
             {
                 return;
             }
-            String scanPackages = System.getProperty("given.scan.package", "");
+            String scanPackages = System.getProperty("after-each.scan.package", "");
             final Reflections reflections = scanPackages.isEmpty()
                             ? new Reflections("com.yapily.orione2e")
                             : new Reflections(scanPackages);
-            Set<Class<?>> givenClasses = reflections.getTypesAnnotatedWith(Given.class);
-            List<GivenMethodInvoker> invokers = new ArrayList<>();
-            for(Class<?> cls : givenClasses)
+            Set<Class<?>> afterEachClasses = reflections.getTypesAnnotatedWith(AfterEach.class);
+            List<AfterEachMethodInvoker> invokers = new ArrayList<>();
+            for(Class<?> cls : afterEachClasses)
             {
-                Given givenAnnotation = cls.getAnnotation(Given.class);
-                if(givenAnnotation.testClass().getName().equals(Void.class.getName()) || givenAnnotation.testClass().getName().equals(testClass.getName()))
+                AfterEach afterEachAnnotation = cls.getAnnotation(AfterEach.class);
+                if(afterEachAnnotation.testClass().getName().equals(Void.class.getName()) || afterEachAnnotation.testClass().getName().equals(testClass.getName()))
                 {
                     for(Method m : cls.getDeclaredMethods())
                     {
-                        if(!m.isAnnotationPresent(Given.class))
+                        if(!m.isAnnotationPresent(AfterEach.class))
                         {
                             continue;
                         }
                         if(m.getParameterCount() != 0)
                         {
-                            throw new IllegalStateException("@Given methods must be no-arg: " + m);
+                            throw new IllegalStateException("@AfterEach methods must be no-arg: " + m);
                         }
                         boolean isStatic = Modifier.isStatic(m.getModifiers());
                         m.setAccessible(true);
-                        invokers.add(new GivenMethodInvoker(cls, m, isStatic));
+                        invokers.add(new AfterEachMethodInvoker(cls, m, isStatic));
                     }
                 }
             }
@@ -76,14 +76,14 @@ public class PerTestExecutionListener implements BeforeEachCallback
     }
 
 
-    private static class GivenMethodInvoker
+    private static class AfterEachMethodInvoker
     {
         private final Class<?> declaringClass;
         private final Method method;
         private final boolean isStatic;
 
 
-        GivenMethodInvoker(Class<?> declaringClass, Method method, boolean isStatic)
+        AfterEachMethodInvoker(Class<?> declaringClass, Method method, boolean isStatic)
         {
             this.declaringClass = declaringClass;
             this.method = method;
