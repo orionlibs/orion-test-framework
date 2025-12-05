@@ -11,6 +11,8 @@ import com.yapily.orione2e.api.service.hosted_payments.payment_request.CreatePay
 import com.yapily.orione2e.api.service.hosted_payments.status.GetPaymentRequestStatusResponse;
 import com.yapily.orione2e.api.service.hosted_payments.submit_institution.SubmitInstitutionResponse;
 import com.yapily.orione2e.api.service.iam.IAMGetAccessTokenResponse;
+import com.yapily.orione2e.extension.failfast.FailFast;
+import com.yapily.orione2e.extension.failfast.FailFastExtension;
 import com.yapily.orione2e.extension.lifecycle.AfterEachTestExecutionListener;
 import com.yapily.orione2e.extension.lifecycle.BeforeEachTestExecutionListener;
 import com.yapily.orione2e.extension.requires_resource.RequiresResource;
@@ -26,6 +28,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith(AfterEachTestExecutionListener.class)
 @ExtendWith(RetryExtension.class)
 @ExtendWith(ResourceExecutionCondition.class)
+@ExtendWith(FailFastExtension.class)
+@FailFast("critical connectivity check")
 public class Test1 extends E2ETestBase
 {
     public Test1()

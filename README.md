@@ -19,3 +19,4 @@ Provides components needed to write JUnit-powered end-to-end tests.
 * Rate limitation enforces a minimum delay between starts of test invocations sharing the same rate-limit key (@RateLimited(minIntervalMs = 200, key = "payments-api")).
 * Ability to capture HTTP traffic (@CaptureTraffic(snippetMaxBytes = 2048)).
 * Ability to create a temporary directory for tests that gets deleted when the tests finish (@UseTempDirectory(prefix = "demo-")).
+* Ability to fail a test class fast if any test fails (@FailFast("critical connectivity check")).
