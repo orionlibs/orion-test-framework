@@ -21,3 +21,4 @@ Provides components needed to write JUnit-powered end-to-end tests.
 * Ability to create a temporary directory for tests that gets deleted when the tests finish (@UseTempDirectory(prefix = "demo-")).
 * Ability to fail a test class fast if any test fails (@FailFast("critical connectivity check")).
 * Ability to detect leaks (@DetectLeaks(checkThreads = true)).
+* Ability to catch "chaotic" network problems (@Chaos(latencyMs = 200, dropRate = 0.2, seed = 42)).
