@@ -16,3 +16,4 @@ Provides components needed to write JUnit-powered end-to-end tests.
 * @AfterEach-annotated classes are scanned for @AfterEach-annotated instance and static methods and they are executed after each test runs. Tests affected are the ones that belong to classes annotated with "@ExtendWith(AfterEachTestExecutionListener.class)". Each @AfterEach-annotated class runs when it is configured to "point at" a particular test class. If it does not "point to" any class then the "AfterEach" methods run after every test. Useful for releasing resources after each test. All classes are scanned unless the "after-each.scan.package" environment variable is set to the package prefix you desire.
 * Mock server
 * Load database fixtures or call data seed methods before the test
+* Rate limitation enforces a minimum delay between starts of test invocations sharing the same rate-limit key (@RateLimited(minIntervalMs = 200, key = "payments-api")).
