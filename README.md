@@ -18,3 +18,4 @@ Provides components needed to write JUnit-powered end-to-end tests.
 * Load database fixtures or call data seed methods before the test
 * Rate limitation enforces a minimum delay between starts of test invocations sharing the same rate-limit key (@RateLimited(minIntervalMs = 200, key = "payments-api")).
 * Ability to capture HTTP traffic (@CaptureTraffic(snippetMaxBytes = 2048)).
+* Ability to create a temporary directory for tests that gets deleted when the tests finish (@UseTempDirectory(prefix = "demo-")).
