@@ -20,3 +20,4 @@ Provides components needed to write JUnit-powered end-to-end tests.
 * Ability to capture HTTP traffic (@CaptureTraffic(snippetMaxBytes = 2048)).
 * Ability to create a temporary directory for tests that gets deleted when the tests finish (@UseTempDirectory(prefix = "demo-")).
 * Ability to fail a test class fast if any test fails (@FailFast("critical connectivity check")).
+* Ability to detect leaks (@DetectLeaks(checkThreads = true)).
