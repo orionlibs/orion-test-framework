@@ -1,0 +1,309 @@
+# Core platform & management (MUST)
+
+* **Central dashboard (MVP)**
+  High-level health of test systems: running tests, failures, flaky count, average duration, recent regressions, capacity usage. Quick actions: re-run last failed, open latest report.
+* **Project & environment organization**
+  Projects, repos, branches, environments (dev/staging/prod), and namespaces for teams. Map tests to projects/branches.
+* **Test run orchestration**
+  Start/stop/schedule test runs, pass environment variables, choose runner type (local/container/k8s), and select tags/filters to pick tests.
+* **Test definitions / suite browser**
+  Explore discovered tests (by class/method/annotation), view metadata from JUnit 5 annotations and plugin metadata (e.g., @PerfBudget, @ChaosNetwork).
+* **Test run results & reports**
+  Structured view of pass/fail/skipped, full stacktraces, console logs, artifacts, and downloadable JUnit XML. Persistent storage for historical runs.
+* **Authentication & RBAC (MUST)**
+  SSO (OIDC/SAML), role-based access control for projects, teams, and actions (who can delete runs, rerun, quarantine tests).
+* **Integrations (MUST)**
+  Out-of-the-box connectors: GitHub/GitLab/Bitbucket (PR status), Jenkins/TeamCity/GitHub Actions, Slack/Teams, Jira. Webhooks for events (run finished, test failed).
+* **Run templating & parameterization**
+  Save run configurations (runners, env vars, matrix) as templates; support parameterized test runs (values for @ParameterizedTest).
+
+---
+
+# Results analysis & triage (MUST / SHOULD)
+
+* **Failure grouping & fingerprinting**
+  Group similar failures by exception type + stacktrace fingerprint to reduce noise.
+* **Flaky test detection & quarantine**
+  Automatic detection based on historical patterns; allow auto-quarantine with workflows to fix or ignore.
+* **Smart reruns & retry policies**
+  Configure per-suite/branch rerun attempts, exponential backoff, and fail-on-flaky thresholds.
+* **Blame & ownership assignment**
+  Map tests to code owners (from CODEOWNERS or annotations), show likely responsible commit/author for regressions.
+* **Search, filters & saved views**
+  Powerful search: by test name, tags, status, duration, owner, flaky score, annotations. Save favourite filters/dashboards.
+* **Evidence & artifacts viewer**
+  View logs, attached files, screenshots, video recordings of e2e runs, HTTP request/response captures.
+
+---
+
+# Test quality & intelligence (SHOULD)
+
+* **Test coverage & impact analysis**
+  Show code coverage per test, which lines/executables a test touches, and test-to-code impact (what tests change when a file changes).
+* **Test selection / change-based testing**
+  Suggest minimal set of tests to run for a PR or commit using dependency mapping and historical data.
+* **Mutation & contract testing integration**
+  Surface mutation testing results and contract test failures for microservices.
+* **Performance analytics**
+  Aggregate timing histograms, percentiles, detect regressions vs baseline, per-test SLA/SLO tracking.
+* **Flake prediction (ML assisted)**
+  Predict likely flaky tests and high-risk tests for a change using historical signals (environment, duration, OS, recent failures).
+* **Test health scoring**
+  Composite score per test: flakiness, runtime stability, coverage, last-failure-age for prioritisation.
+
+---
+
+# Test environment & runner orchestration (SHOULD)
+
+* **Runner pools & autoscaling**
+  Manage pools (VMs, containers, k8s pods), auto-scale based on queued runs and priority.
+* **Matrix runs & parallelization**
+  Build matrix (OS, JDK, browser/version, device) with intelligent scheduling and concurrency limits.
+* **Provisioning & sandboxing**
+  Spin up ephemeral infra per run (docker-compose, k8s namespace), teardown after completion.
+* **Device lab & browser cloud integration**
+  Connect to BrowserStack, Sauce Labs, or in-house device farms for mobile/real-device testing.
+* **Secrets & credentials manager**
+  Securely inject credentials, API keys, certificates to test runs; audit access.
+
+---
+
+# Developer workflow & CI/CD (MUST / SHOULD)
+
+* **PR / gating integration**
+  Run a subset of tests on PRs, block merging based on test results, and provide inline failure comments on PRs.
+* **Pre-merge vs post-merge policies**
+  Policies for which tests always run on PR, which on nightly, and which require manual triggers.
+* **Auto-creation of issues / tickets**
+  When a test repeatedly fails, automatically open an issue in Jira/GitHub Actions with failure details and artifacts.
+* **Status checks & badges**
+  Widgets and badges for README and PRs showing last run status, coverage, or test health.
+* **Developer feedback loop**
+  Quick-run mode for devs (fast subset), rerun from stacktrace link, suggested flake fix tips.
+
+---
+
+# Debugging & reproduction tools (SHOULD / NICE-TO-HAVE)
+
+* **Replayable runs**
+  Archive exact environment + commit + inputs so a run can be reproduced; provide "Replay" button.
+* **Record & playback (video + network)**
+  For UI e2e, capture video and HTTP traces; allow trimming and playback.
+* **Live remote debugging**
+  Attach debugger (or open an SSH session / remote shell) to a failed run's container for interactive debugging (with RBAC).
+* **Snapshot & heap dumps**
+  Capture heap dump, thread dumps, or profiler traces on demand or on failure.
+* **Step-through logs / timeline**
+  Rich timeline view correlating test steps, plugin events (e.g., chaos injection moments), and external calls.
+
+---
+
+# Governance, security & compliance (MUST / SHOULD)
+
+* **Audit logs & activity stream**
+  Track who ran/queued/re-ran/deleted tests, who changed templates, and who modified RBAC.
+* **Retention & data policies**
+  Configure retention (artifacts, logs, run metadata) per project to comply with storage and privacy needs.
+* **Encryption & secrets handling**
+  Encrypt data at rest and in transit; secure storage for keys and credentials.
+* **Multi-tenancy & org-level admin**
+  Separate orgs/teams with strict isolation, quotas, and billing per tenant.
+* **Compliance reports & export**
+  Generate compliance-friendly reports (SOC2, ISO) for test artifacts and activity.
+
+---
+
+# Observability, reporting & metrics (MUST / SHOULD)
+
+* **Time-series metrics & dashboards**
+  Expose metrics (run rate, pass rate, duration, concurrency) and prebuilt dashboards. Prometheus + Grafana hooks.
+* **Alerting & SLO monitoring**
+  Alert when test pass rate drops, run queue grows, or critical tests exceed thresholds.
+* **Custom report builder**
+  Build PDF/HTML reports for executives or clients with filters, charts, and commentary.
+* **Export & API**
+  Full REST/GraphQL API to query tests, runs, artifacts; CLI client for automation and scripting.
+
+---
+
+# UX / collaboration features (SHOULD)
+
+* **Annotations & comments on runs/tests**
+  Team members can add notes to runs or specific failures (root-cause, workaround).
+* **Kanban / workflow board for test issues**
+  Visual board for triaging flaky tests, failed test backlog, and remediation tasks.
+* **Shared dashboards & bookmarks**
+  Save and share dashboards with teammates or stakeholders.
+* **Onboarding & run templates**
+  Wizard to create first project, link repo, create a template for common run types.
+* **In-app tutorials & guided troubleshooting**
+  Contextual help for interpreting failure types, configuring plugin annotations, or fixing common flakiness causes.
+
+---
+
+# Extensibility & plugin ecosystem (MUST / NICE-TO-HAVE)
+
+* **Plugin marketplace & versioned extensions**
+  Marketplace for community/official integrations (report exporters, analysis tools) with versioning.
+* **Extension SDK & UI hooks**
+  Allow third-party developers to add UI panels to test detail pages or custom analysis jobs.
+* **Custom annotation/config editor**
+  Friendly UI for editing plugin configs (e.g., global default for @PerfBudget) and toggling features per project.
+
+---
+
+# Automation & ops (SHOULD / ADVANCED)
+
+* **Job scheduling & cron runs**
+  Nightly/regressive full-suite runs with dependency-aware scheduling.
+* **Canary & staged rollouts of tests**
+  Run new tests on canary environment first; auto-promote when stable.
+* **Cost tracking & optimization**
+  Report cost per run (cloud infra, device clouds), recommendations to save money (shorten matrix, prioritize tests).
+* **Garbage collection & quota management**
+  Policies for artifacts, logs, and run history pruning.
+
+---
+
+# Advanced / future-forward features (ADVANCED)
+
+* **Automatic test repair & suggestions**
+  Suggest fixes for flaky or failing tests (e.g., increase timeout, stable waiting strategies) using heuristics/ML.
+* **Auto-generated tests / fuzzing**
+  Generate candidate parameterized tests or fuzz inputs based on API specs and past failures.
+* **Causal analysis**
+  Correlate infra changes, dependency updates, or third-party outages with test failures to find root cause.
+* **Test reliability forecasting**
+  Predict risk of regression for a release window using historical data and change magnitude.
+* **Policy-as-code for tests**
+  Enforce org-specific rules (no flaky tests in main, must run perf budgets) using versioned, reviewable policies.
+
+---
+
+# Developer-facing niceties (NICE-TO-HAVE)
+
+* **Local dev runner & SDK**
+  CLI or local UI plugin to run a subset of tests and upload artifacts to the server for unified reporting.
+* **VS Code / IDE extension**
+  Inline test status, rerun tests, open failed run artifacts in the editor.
+* **Granular notifications**
+  Customizable notification routing (team or user level) for failing tests, flaky alerts, or run completions.
+
+---
+
+# Minimum viable product (MVP) recommendation
+
+1. Dashboard + project/runner management + test discovery.
+2. Run orchestration + viewable test results, logs, artifacts.
+3. Git integration for PR status + basic RBAC + webhooks.
+4. Failure grouping and simple flaky detection (based on repeated failures).
+
+This gives immediate value to developers and ops while keeping scope manageable.
+
+---
+
+# Visibility & analytics (high ROI)
+
+* **Test-dependency graph visualiser** — interactive graph showing which tests touch which services/modules, and which tests depend on each other; click a node to see recent flakiness and runtime.
+* **Change-impact heatmap** — heatmap that shows which code areas produce the most failed tests for recent commits; surfaces hotspots for dev focus.
+* **Regression waterfall** — timeline that highlights when a previously-stable test first started failing and overlays commits, infra changes and deployments.
+* **Test-run clustering** — cluster test runs by similarity (same failing tests, same infra) to find systemic outages.
+* **Business-mapped KPIs** — map tests to business features (e.g., checkout, auth) and show feature-level health for product managers.
+
+# AI & automation (big multiplier)
+
+* **Auto-post-mortem generator** — when a major run fails, auto-generate a post-mortem draft with likely root cause, implicated commits, reproduction steps and suggested owners.
+* **Automated PR comment triage** — the system comments on PRs with concise failure summaries, stacktrace highlights, suggested quick fixes (e.g., "increase timeout here"), and links to failing runs.
+* **AI-assisted failure debugger** — give the stacktrace + logs and get prioritized hypotheses + reproduction commands (docker-compose, env vars).
+* **Auto-flake classifier** — ML model that labels failures as infra vs test bug vs product bug, with confidence score and rationale.
+* **Smart test refactoring suggestions** — scan tests to recommend refactors: split large tests, convert brittle sleeps to wait-for conditions, replace randomized inputs with deterministic fixtures.
+
+# Developer workflow & ergonomics
+
+* **Test “playgrounds” (sandboxed IDE tabs)** — lightweight in-browser editing + single-test run against an ephemeral environment for rapid iteration.
+* **Test linting & pre-commit rules UI** — show lint failures and allow fixing suggestions; enforce via branch protection.
+* **Test backlog triage board** — automatically create prioritized backlog items for the most impactful failing/flaky tests with tags like “high-impact”, “low-effort”.
+* **One-click failure reproduction script** — generate a shell script / docker-compose file that reproduces the failing run locally.
+* **Test ownership dashboard** — show tests without owners, tests with high failure rates and owners who have many failing tests (for rebalancing).
+
+# Test data & synthetic data (privacy + reproducibility)
+
+* **Synthetic data generator** — UI to generate realistic but anonymized datasets for e2e tests (with schema-aware generators).
+* **Test data lineage / provenance** — track origin of test data, who modified it, when, and which runs used it.
+* **Data masking & privacy rules** — define masking rules applied to artifacts/logs before storing/exporting.
+* **Dataset versioning & snapshotting** — restore the exact dataset used by a failing run to reproduce bugs exactly.
+* **Secure “golden data” vault** — centrally manage canonical datasets for deterministic tests with RBAC and audit.
+
+# Chaos, resilience & scenario composition
+
+* **Scenario composer UI** — visually build multi-dimensional chaos scenarios (network latency, DB errors, service failure windows) and apply them to selected tests/runs.
+* **Failure injection library marketplace** — curated chaos modules people can add to runs (latency spike, API throttling, DNS failures).
+* **Service-level failure simulator** — simulate downstream third-party outages or degraded services and see how tests behave.
+* **Progressive chaos ramp** — ramp intensity over time to find tipping points in resilience.
+
+# Security / supply chain testing
+
+* **Security test orchestration** — run SAST/DAST scans as part of test runs, correlate security findings with test failures.
+* **Dependency risk dashboard (SBOM)** — auto-generate SBOM per run and show CVE/risk score for dependencies exercised in tests.
+* **Credential-safety checker** — detect accidental secrets in test logs or artifacts and auto-redact.
+* **Policy enforcement for vulnerable deps** — block PR merge if tests run on commits touching disallowed packages/licenses.
+
+# Manual / exploratory testing support
+
+* **Session-based exploratory testing** — record manual testing sessions, allow testers to attach notes and convert repro steps into automated test skeletons.
+* **Manual test management** — CRUD manual test cases, mark pass/fail, link automated equivalents, and track coverage of manual vs automated.
+* **Crowdsourced testing runs** — schedule tasks for QA team members with built-in recording & checklist.
+
+# Test lifecycle & maintenance
+
+* **Test debt tracker** — track tests flagged for rework, assign priority and estimate effort; display impact on pipeline health.
+* **Auto-archive unused tests** — identify tests not run for X months and suggest archiving or deletion with audit trail.
+* **Versioned test-recipe store** — central store for common test setups (auth flows, mock services) with versioning and reuse across projects.
+* **Test migration assistant** — help migrate tests between frameworks or major JDK versions with automated compatibility checks.
+
+# Performance & load testing
+
+* **Scenario-based load generator** — create user-journey load tests based on passing e2e tests and measure service SLAs.
+* **Cost-aware load scheduling** — run heavy load tests in off-peak hours or on cheaper regions, with cost estimates before run.
+* **Autoscaling benchmarker** — measure and visualize how infra autoscaling behaves under test-defined load patterns.
+
+# Integrations & ecosystem
+
+* **Test-case to ticket automation** — when a test fails X times, create a ticket with prefilled reproduction and prioritized severity.
+* **Marketplace for shared test modules** — teams publish reusable test harnesses, connectors, steps (e.g., login workflows).
+* **External analytics hooks** — export test metrics to data warehouses (BigQuery, Snowflake) for custom analytics.
+
+# Observability & correlation
+
+* **APM correlation** — link failures to APM traces (Datadog, New Relic) so you can see production traces that match failing test traces.
+* **Log correlation & pivot** — jump from failed test to matching logs in centralized log stores, with prebuilt queries.
+* **Real-time run streaming** — stream logs, metrics and video live while a run is executing (for long-running e2e flows).
+
+# Governance, compliance & audit
+
+* **Test-signoff workflows** — require approvals for re-enabling quarantined tests or changing retention/compliance settings.
+* **Regulatory-run mode** — append compliance metadata to runs (who triggered, for what purpose), useful for regulated industries.
+* **Legal hold & e-discovery** — allow legal or compliance to freeze and export artifacts related to a specific time window.
+
+# Novel UX & engagement
+
+* **Gamified reliability leaderboards** — friendly competition: teams score points for reducing flakiness, improving coverage, fixing high-impact tests.
+* **Test “release notes” generator** — track test-related changes between releases and auto-generate a changelog for ops/devs.
+* **Run summarization (TL;DR)** — short natural-language summaries of runs: "10 tests failed; 7 flaky infra; top failing: LoginFlowTest."
+
+# Experimentation / product analytics tie-ins
+
+* **A/B test run correlator** — link test runs with A/B experiments to see if product experiments increase flakiness or regressions.
+* **Feature flag testing hub** — orchestrate runs with different flag combinations and compare behavior.
+
+# Platform & ops tooling
+
+* **Runner blueprints** — prebuilt images and infra blueprints for common stacks (Spring Boot, Micronaut, Play) to reduce onboarding time.
+* **Cross-cluster orchestration** — run tests across multiple k8s clusters or clouds and aggregate results centrally.
+* **Self-healing runners** — detect unhealthy runner nodes and auto-replace them; reroute active runs to new nodes.
+
+# Experimental / research-y features
+
+* **Time-travel debugging integration** — integrate with time-travel debuggers to replay failing recordings deterministically.
+* **Program-synthesis test generation** — auto-generate test scaffolding using program synthesis techniques from API spec + historical failures.
+* **Causal inference engine** — statistically infer whether a code change, infra change, or external event is the likely cause of a regression.
