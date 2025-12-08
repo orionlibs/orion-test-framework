@@ -1,33 +1,3 @@
-## 9) TestMatrix
-
-**Why**: generate multiple invocations for versions/environments (like matrix builds but inside JUnit).
-**API**: `@Matrix({@Axis(name="db", values={"h2","postgres"}), ...})`
-**Extension points**: `TestTemplateInvocationContextProvider` (generate invocation contexts).
-**Difficulty**: 4/5.
-**Notes**: provide friendly display names and parameter resolution.
-
----
-
-## 13) FeatureFlagExtension
-
-**Why**: run tests with different feature flag states.
-**API**: `@WithFeature("newCheckout", enabled=true/false)` or provider that yields both states.
-**Extension points**: `TestTemplateInvocationContextProvider` or `ParameterResolver`.
-**Difficulty**: 3/5.
-**Notes**: toggle feature state in feature provider or mock service.
-
----
-
-## 14) SeleniumDriverPool
-
-**Why**: manage Selenium drivers; reduce startup cost.
-**API**: `@UseBrowser(type=CHROME, headless=true)`
-**Extension points**: `BeforeAllCallback` start pool; `ParameterResolver` inject driver; `AfterAllCallback` shut down pool.
-**Difficulty**: 4/5.
-**Notes**: ensure clean state between tests (cookies, local storage), handle driver crashes.
-
----
-
 ## 15) APIContractVerifier
 
 **Why**: verify API responses against schema or contract during tests automatically.
@@ -36,12 +6,6 @@
 **Difficulty**: 4/5.
 **Notes**: integrate with OpenAPI/JSON Schema libraries.
 
-
-Absolutely — here are **more, deeper, and more creative JUnit 5 extension ideas**, grouped by domain. Many of these push into advanced JUnit extension points (Invocations, Test Templates, Condition Evaluation, Parameter Resolution, Stores, etc.). Some of these ideas are unique enough to be publishable as libraries.
-
----
-
-# ⚡ **Advanced / Novel JUnit 5 Extension Ideas**
 
 ## 1. **Test Time Travel (Clock Injection)**
 
