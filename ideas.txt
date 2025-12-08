@@ -8,16 +8,6 @@
 
 ---
 
-## 12) PerfBudget
-
-**Why**: ensure performance regressions are caught.
-**API**: `@PerfBudget(maxMs=50)` or percentile-based config.
-**Extension points**: `InvocationInterceptor` to time invocation; `TestWatcher` to record historical results.
-**Difficulty**: 3/5.
-**Notes**: warm-up runs, environmental noise, stable baselining necessary.
-
----
-
 ## 13) FeatureFlagExtension
 
 **Why**: run tests with different feature flag states.
