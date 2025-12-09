@@ -1,4 +1,4 @@
-package com.yapily.orione2e.api.service.applications.payload.request;
+package com.yapily.orione2e.api.service.applications.create_subapplication.payload.request;
 
 import lombok.Data;
 

@@ -1,9 +1,9 @@
-package com.yapily.orione2e.api.service.applications;
+package com.yapily.orione2e.api.service.applications.create_subapplication;
 
 import com.yapily.orione2e.api.APICall;
 import com.yapily.orione2e.api.HTTPResponseHandler;
-import com.yapily.orione2e.api.service.applications.payload.request.CreateSubapplicationRequest;
-import com.yapily.orione2e.api.service.applications.payload.response.CreateSubapplicationResponse;
+import com.yapily.orione2e.api.service.applications.create_subapplication.payload.request.CreateSubapplicationRequest;
+import com.yapily.orione2e.api.service.applications.create_subapplication.payload.response.CreateSubapplicationResponse;
 import com.yapily.orione2e.utils.JSONUtils;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
