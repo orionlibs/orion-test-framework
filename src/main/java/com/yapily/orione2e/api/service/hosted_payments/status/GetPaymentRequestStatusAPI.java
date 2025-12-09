@@ -10,7 +10,7 @@ import org.apache.hc.core5.util.Timeout;
 
 public class GetPaymentRequestStatusAPI extends APICall
 {
-    private String jwt;
+    String jwt;
 
 
     public GetPaymentRequestStatusAPI(String hostedPaymentRequestId, String hostedPaymentId, String endpoint, String jwt)

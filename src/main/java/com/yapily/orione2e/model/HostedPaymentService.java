@@ -1,6 +1,7 @@
 package com.yapily.orione2e.model;
 
 import com.yapily.orione2e.api.service.hosted_payments.authorise.AuthoriseAPI;
+import com.yapily.orione2e.api.service.hosted_payments.authorise.payload.request.AuthoriseRequest;
 import com.yapily.orione2e.api.service.hosted_payments.exchange_code.authorisation.AuthorisationAPI;
 import com.yapily.orione2e.api.service.hosted_payments.exchange_code.exchange.ExchangeCodeAPI;
 import com.yapily.orione2e.api.service.hosted_payments.execute.ExecutePaymentRequestAPI;
@@ -41,9 +42,9 @@ public class HostedPaymentService
     }
 
 
-    public AuthoriseAPI authoriseAPI(String hostedPaymentRequestId, String hostedPaymentId, String endpoint, String jwt)
+    public AuthoriseAPI authoriseAPI(String hostedPaymentRequestId, String hostedPaymentId, AuthoriseRequest request, String endpoint, String jwt)
     {
-        return new AuthoriseAPI(hostedPaymentRequestId, hostedPaymentId, endpoint, jwt);
+        return new AuthoriseAPI(hostedPaymentRequestId, hostedPaymentId, request, endpoint, jwt);
     }
 
 

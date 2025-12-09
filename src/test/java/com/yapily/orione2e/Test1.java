@@ -2,6 +2,7 @@ package com.yapily.orione2e;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.yapily.orione2e.api.service.hosted_payments.authorise.payload.request.AuthoriseRequest;
 import com.yapily.orione2e.api.service.hosted_payments.authorise.payload.response.AuthoriseResponse;
 import com.yapily.orione2e.api.service.hosted_payments.exchange_code.authorisation.payload.response.AuthorisationResponse;
 import com.yapily.orione2e.api.service.hosted_payments.exchange_code.exchange.payload.response.ExchangeCodeResponse;
@@ -30,7 +31,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith(ResourceExecutionCondition.class)
 @ExtendWith(FailFastExtension.class)
 @FailFast("critical connectivity check")
-public class Test1 extends E2ETestBase
+class Test1 extends E2ETestBase
 {
     public Test1()
     {
@@ -91,8 +92,11 @@ public class Test1 extends E2ETestBase
                                         createPaymentRequestResponse.hostedAuthToken())
                         .call();
         assertThat(submitInstitutionResponse.hostedPaymentRequestId()).hasSizeGreaterThan(15);
+        AuthoriseRequest request1 = new AuthoriseRequest();
+        request1.setHostedAuthRedirect("https://prototypes.yapily.com/auth-link2.html");
         AuthoriseResponse authoriseResponse = hostedPaymentService.authoriseAPI(createPaymentRequestResponse.hostedPaymentRequestId(),
                                         getPaymentRequestInfoResponse.hostedPaymentId(),
+                                        request1,
                                         hostedPaymentService.endpoints.get("authorisePayment"),
                                         createPaymentRequestResponse.hostedAuthToken())
                         .call();

@@ -11,8 +11,8 @@ import org.apache.hc.core5.http.io.entity.StringEntity;
 
 public class CreatePaymentRequestAPI extends APICall
 {
-    private String body;
-    private String jwt;
+    String body;
+    String jwt;
 
 
     public CreatePaymentRequestAPI(String userId, String applicationUserId, String endpoint, String jwt)

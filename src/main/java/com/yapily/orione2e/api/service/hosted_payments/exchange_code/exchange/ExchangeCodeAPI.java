@@ -10,8 +10,8 @@ import org.apache.hc.core5.http.io.entity.StringEntity;
 
 public class ExchangeCodeAPI extends APICall
 {
-    private String body;
-    private String jwt;
+    String body;
+    String jwt;
 
 
     public ExchangeCodeAPI(String code, String idToken, String state, String endpoint, String jwt)

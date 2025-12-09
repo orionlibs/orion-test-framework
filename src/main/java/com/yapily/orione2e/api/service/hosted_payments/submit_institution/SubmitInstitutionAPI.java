@@ -10,8 +10,8 @@ import org.apache.hc.core5.http.io.entity.StringEntity;
 
 public class SubmitInstitutionAPI extends APICall
 {
-    private String body;
-    private String jwt;
+    String body;
+    String jwt;
 
 
     public SubmitInstitutionAPI(String hostedPaymentRequestId, String hostedPaymentId, String endpoint, String jwt)

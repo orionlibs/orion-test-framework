@@ -21,3 +21,7 @@ services:
       exchangeCode: /exchange-code
       executePayment: /hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/execute
       paymentStatus: /hosted/ui/pis/payment-requests/{hostedPaymentRequestId}/payments/{hostedPaymentId}/status
+  applications:
+    host: https://staging-api.yapily.com
+    endpoints:
+      createSubapplication: /applications

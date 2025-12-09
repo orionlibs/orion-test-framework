@@ -10,9 +10,9 @@ import org.apache.hc.core5.http.io.entity.StringEntity;
 
 public class ExecutePaymentRequestAPI extends APICall
 {
-    private String body;
-    private String jwt;
-    private String consentToken;
+    String body;
+    String jwt;
+    String consentToken;
 
 
     public ExecutePaymentRequestAPI(String hostedPaymentRequestId, String hostedPaymentId, String endpoint, String jwt, String consentToken)

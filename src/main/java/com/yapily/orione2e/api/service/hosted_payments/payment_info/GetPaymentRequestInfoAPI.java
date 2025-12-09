@@ -8,7 +8,7 @@ import org.apache.hc.client5.http.classic.methods.HttpGet;
 
 public class GetPaymentRequestInfoAPI extends APICall
 {
-    private String jwt;
+    String jwt;
 
 
     public GetPaymentRequestInfoAPI(String paymentRequestId, String endpoint, String jwt)
