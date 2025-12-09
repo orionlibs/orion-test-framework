@@ -29,9 +29,7 @@ public class GlueTestExecutionListener implements TestExecutionListener
 
     private void runGlueMethods() throws Exception
     {
-        // Optional: read packages to scan from a system property to avoid scanning whole classpath
         String scanPackages = System.getProperty("glue.scan.package", "");
-        // Create a Reflections scanner. An empty string scans the whole classpath
         final Reflections reflections = scanPackages.isEmpty()
                         ? new Reflections("com.yapily.orione2e")
                         : new Reflections(scanPackages);

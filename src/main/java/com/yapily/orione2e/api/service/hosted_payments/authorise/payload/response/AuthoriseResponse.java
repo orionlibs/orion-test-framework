@@ -1,15 +1,15 @@
-package com.yapily.orione2e.api.service.hosted_payments.execute;
+package com.yapily.orione2e.api.service.hosted_payments.authorise.payload.response;
 
 import com.yapily.orione2e.api.HTTPResponse;
 import com.yapily.orione2e.api.HTTPResponseHandler;
 import java.util.Map;
 
-public class ExecutePaymentRequestResponse implements HTTPResponse
+public class AuthoriseResponse implements HTTPResponse
 {
     private final Map<String, Object> body;
 
 
-    public ExecutePaymentRequestResponse(HTTPResponseHandler httpResponseHandler)
+    public AuthoriseResponse(HTTPResponseHandler httpResponseHandler)
     {
         this.body = getResponseBody(httpResponseHandler);
     }

@@ -11,13 +11,13 @@ public abstract class APICall
     private Map<String, Object> requestBody;
 
 
-    public APICall(String endpoint)
+    protected APICall(String endpoint)
     {
         this.endpoint = endpoint;
     }
 
 
-    public APICall(String endpoint, Map<String, Object> requestBody)
+    protected APICall(String endpoint, Map<String, Object> requestBody)
     {
         this(endpoint);
         this.requestBody = requestBody;

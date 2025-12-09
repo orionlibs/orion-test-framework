@@ -7,35 +7,6 @@
 **Notes**: integrate with OpenAPI/JSON Schema libraries.
 
 
-## 1. **Test Time Travel (Clock Injection)**
-
-**Problem:** Code using `Instant.now()` or `Clock.systemUTC()` makes tests brittle.
-**Idea:** An extension that injects a controllable `Clock` and freezes, advances, or randomizes time.
-
-**API**
-
-```java
-@WithClock(frozen = "2025-01-01T00:00:00Z")
-@WithClock(offset = "PT5H")
-Clock clock;
-```
-
-**Mechanism**
-ParameterResolver + AfterEach to reset static clocks (use interfaces or dynamic proxies).
-
----
-
-## 2. **Global Retry Budget**
-
-Instead of per-test retry, enforce a *suite-level* retry budget.
-
-**Example:**
-All tests together may retry 10 times in a build. Extension tracks count using `ExtensionContext.Store`.
-
-**Why it’s cool:**
-It prevents hiding flaky tests by over-retrying everything.
-
----
 
 ## 3. **Test Warmup / JIT Stabilization**
 

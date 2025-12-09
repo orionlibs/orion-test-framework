@@ -2,6 +2,7 @@ package com.yapily.orione2e.api.service.hosted_payments.authorise;
 
 import com.yapily.orione2e.api.APICall;
 import com.yapily.orione2e.api.HTTPResponseHandler;
+import com.yapily.orione2e.api.service.hosted_payments.authorise.payload.response.AuthoriseResponse;
 import java.io.IOException;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.core5.http.ContentType;

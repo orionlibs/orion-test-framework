@@ -2,6 +2,7 @@ package com.yapily.orione2e.api.service.iam;
 
 import com.yapily.orione2e.api.APICall;
 import com.yapily.orione2e.api.HTTPResponseHandler;
+import com.yapily.orione2e.api.service.iam.payload.response.IAMGetAccessTokenResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;

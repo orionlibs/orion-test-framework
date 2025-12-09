@@ -1,3 +1,376 @@
+# 1) Repository & Authentication integration
+
+* Bitbucket integration
+
+  * OAuth app / token-based integration for scanning repositories and reading PR/branch info.
+  * Per-project and per-repo configuration UI.
+  * Auto-discover repositories from Bitbucket projects and sync via webhook or scheduled scan.
+* Authentication / SSO
+
+  * SAML / OIDC / OAuth2 for corporate SSO.
+  * Role-based access-control (RBAC) mapped to org teams, repo ownership, and environments.
+* Secrets & credentials
+
+  * Secure vault for storing service accounts, cloud creds, Docker registry tokens; rotation and access audit.
+* Multi-VCS support (optional)
+
+  * Pluggable adapters (Bitbucket first; GitHub/GitLab optional later).
+
+# 2) Test discovery & metadata
+
+* Auto-discover test artifacts
+
+  * Parse JUnit 5 XML (Surefire, Gradle), xUnit, or proprietary test reports.
+  * Detect test types: unit / integration / smoke / e2e / performance.
+* Rich test metadata
+
+  * Capture JUnit5 features: `@Tag`, `@DisplayName`, parameterized tests, dynamic tests, nested tests, extensions used.
+  * Owner, maintainer, priority, stability (flaky score), expected duration, retry policy, labels, linked Jira ticket.
+* Test catalog
+
+  * Central searchable catalog of all tests (by repo, class, method, tag, owner, last-run status).
+  * Ability to tag tests with business domains, services exercised, or release teams.
+* Map tests → code / service
+
+  * Link tests to the microservice(s) and API endpoints they exercise.
+  * Visual dependency mapping (which services a test touches).
+
+# 3) Execution engine & orchestration
+
+* Unified execution interface
+
+  * Run tests on-demand (single test, test suite, tag group, PR branch).
+  * Schedule recurring runs (nightly, release candidate, pre-deploy).
+  * Trigger runs from Bitbucket PRs and branch events (pre-merge checks).
+* Execution targets
+
+  * Local agents (corporate runners), Kubernetes runners, cloud serverless runners.
+  * Ability to run against Docker images or in ephemeral namespaces.
+* Parallelization & sharding
+
+  * Auto-shard tests across runners to minimize wall-clock time.
+  * Smart sharding (balance slow vs fast tests) and deterministic sharding for reproducible runs.
+* Resource management & quotas
+
+  * Runner pools per team/project, concurrency limits, priority queues.
+  * Auto-scaling runner pools based on queue length and budget.
+* Orchestrated scenarios
+
+  * Multi-service orchestration for E2E tests (start service X, seed DB, run tests).
+  * Compose-based or Helm template ephemeral environments.
+
+# 4) CI/CD & policy enforcement
+
+* CI integration
+
+  * Hooks for Bitbucket Pipelines, Jenkins, Bamboo, GitHub Actions, etc.
+  * Report test results back to PRs, with inline annotations and checks.
+* Merge gate policies
+
+  * Define quality gates (e.g., all smoke tests must pass; percent regression threshold).
+  * Block merges on failing tests or failing gates (per-branch policy).
+* Test sharding for CI jobs
+
+  * Auto-generate test splitting configuration for parallel CI jobs (consistent across pipeline runs).
+* Promotion & release gating
+
+  * Run staging or acceptance suites before promoting artifacts; support canary smoke tests.
+
+# 5) Results, artifacts, and debugging
+
+* Aggregated reporting
+
+  * Unified view of test runs (per-commit, per-PR, per-branch, per-release).
+  * History & comparisons: show diffs between runs (what failed newly, what regressed).
+* Artifacts collection
+
+  * Store JUnit XML, logs, stdout/stderr, screenshots, HAR files, videos (for UI tests), core dumps and heap dumps.
+  * Attach artifacts to failures and to PR comments.
+* Debug & replay
+
+  * One-click “replay” of a failing run with identical environment (same Docker image, same env vars).
+  * Download environment snapshot (docker-compose/helm manifests) to reproduce locally.
+* Rich failure view
+
+  * Stack traces, test output, failed assertions, captured logs, related test history (when it first failed).
+  * Correlate failures with infrastructure events (runner restarts, resource exhaustion).
+* Interactive debugging (advanced)
+
+  * Optionally provide ephemeral debug sessions with SSH into runner or remote debug port.
+
+# 6) Flakiness & reliability management
+
+* Flakiness detection
+
+  * Track flaky tests, calculate flaky score (rate of intermittent failures vs runs).
+  * Automatic quarantine (opt-in) or flagging of high-flake tests.
+* Retry & quarantine policies
+
+  * Configurable retry logic (immediate rerun vs scheduled rerun).
+  * Quarantine workflow: mark test as flaky and notify owner; require triage.
+* Root-cause assistance
+
+  * Correlate flakiness with environment, test runtime, parallelization, or external services.
+  * Visual flakiness heatmaps by team, repo, or test.
+
+# 7) Performance & non-functional testing
+
+* Perf tests & budgets
+
+  * Execute perf microbenchmarks and load tests; collect p50/p90/p95/p99 timings.
+  * Define PerfBudget (e.g., `maxMs=50`) and fail builds when thresholds are exceeded.
+  * Historical trend graphs and regression alerts.
+* Resource usage
+
+  * Monitor CPU/memory/disk during tests; capture system metrics linked to runs.
+* Scalability tests
+
+  * Orchestrate distributed load tests with external load generators.
+
+# 8) Test selection & impact analysis
+
+* Change-based selection
+
+  * Run only tests affected by code changes using static analysis / test-impact mapping.
+  * “Smart” selection: include dependent services' integration tests when APIs changed.
+* Prioritization & predictive scheduling
+
+  * Prioritize tests likely to fail or historically flaky for earlier execution.
+  * Use test duration and risk to order tests for quicker feedback.
+
+# 9) Test data & environment management
+
+* Test data management
+
+  * Seed datasets, DB snapshots, versioned fixtures.
+  * Synthetic data generator & anonymisation tooling.
+* Environment templates
+
+  * Templates for ephemeral environments (k8s namespace, DB, mocks) with parameterised config.
+* Service virtualization & mocks
+
+  * Start WireMock or contract-mock with pre-configured stubs; support PACT contract tests.
+* Secrets & config per environment
+
+  * Environment-specific secrets injection and masked logs.
+
+# 10) Observability & analytics
+
+* Dashboards
+
+  * Org-level health: pass rate, failing tests, mean time to repair, test-run throughput.
+  * Team dashboards: top failing tests, top slow tests, flakiness trends.
+  * Release readiness score and trends across time.
+* Analytics & reporting
+
+  * Failure correlation (which tests often fail together).
+  * Test coverage imports and trends (integration with coverage tools).
+  * Mutation testing & test effectiveness metrics (optional).
+* Alerts & notifications
+
+  * Slack/Teams, email, PagerDuty; custom alert rules (e.g., sudden spike in failures).
+  * Scheduled reports (daily/weekly) for teams and managers.
+* Exportable reports
+
+  * CSV, JSON, PDF for audit / engineering reviews.
+
+# 11) Triage, collaboration & workflow
+
+* Triage board
+
+  * Kanban-style view for open test failures, sorted by severity and owner.
+  * Assign tickets to owners or auto-create Jira issues for persistent failures.
+* Commenting & annotations
+
+  * Inline comments on test results; tagging users; attach investigation notes.
+* Ownership & SLAs
+
+  * Assign test owners and SLAs for fixing flaky or failing tests.
+* Notifications
+
+  * Per-team and per-test notification preferences.
+
+# 12) Governance, audit & compliance
+
+* Audit logs
+
+  * Who triggered runs, who changed policies, artifact access logs.
+* Retention & storage policy
+
+  * Configurable retention for artifacts and logs; automatic pruning.
+* Data privacy
+
+  * PII minimisation, redaction in logs, GDPR compliance options.
+* Approvals & change controls
+
+  * Require approvals to change critical test policies or production-targeted test suites.
+
+# 13) Security & reliability
+
+* Least-privilege execution
+
+  * Runners run with minimal privileges, network isolation for tests.
+* Container image verification
+
+  * Signatures / CVE scanning of images used for test runners.
+* SAST/Dependency scans integration
+
+  * Option to run SAST or dependency checks in conjunction with tests and block PRs.
+* Rate limits & quotas
+
+  * Prevent runaway test jobs; cost control for cloud resources.
+
+# 14) Extensibility & automation
+
+* Plugin / extension model
+
+  * Allow custom adapters (new report formats, new test frameworks).
+  * Support for JUnit5 extension configuration: surface extension parameters (e.g., `@PerfBudget`) and show extension-executed metrics (InvocationInterceptor timings, TestWatcher history).
+* REST API & CLI
+
+  * Full API for automation: trigger runs, query test catalog, fetch artifacts, set policies.
+  * CLI for local developers to run same orchestration & upload results.
+* Webhooks & event stream
+
+  * Emit events for external automation (testCompleted, testFailed, testFlaky).
+* Marketplace / integrations
+
+  * Prebuilt integrations with Jira, Slack, Datadog, New Relic, Sentry, SonarQube.
+
+# 15) UX & developer ergonomics
+
+* Lightweight UI
+
+  * Search-first experience for tests, quick rerun buttons, clear statuses.
+* PR decorations
+
+  * Summarized test results in Bitbucket PRs with links to detailed view.
+* Local reproducibility
+
+  * Generate a minimal “run locally” script for any test run (docker-compose/gradle/mvn command + env).
+* Test authoring helper
+
+  * Templates for common JUnit5 test types, example extension usage, best-practices checklists.
+* Accessibility & internationalization
+
+# 16) Ops, scalability & cost
+
+* Horizontal scaling
+
+  * Stateles control plane + scalable runner pools; database for state and S3-like object storage for artifacts.
+* Multi-tenant & namespace isolation
+
+  * Team isolation and resource quotas.
+* Observability for the platform
+
+  * Platform metrics, healthchecks, and alerting (Grafana/Prometheus).
+* Cost reporting
+
+  * Cost by team/project (cloud runner minutes, storage).
+
+
+# AI / automation & smart helpers
+
+* **Automated failure triage (AI-assisted)** — propose probable root causes for a failing test by analysing stack traces, logs, recent code changes, and historical failure patterns; show confidence score and suggested next steps.
+* **Auto-bisect / suspect commit finder** — automatically run binary search over commits to identify the first commit that introduced a regression and attach the result to the PR.
+* **Auto-generate failing test reproduction** — create a minimal failing test case or a distilled reproduction (JUnit snippet + env vars) for maintainers.
+* **Smart fix suggestions** — surfacing likely code fixes or test adjustments (e.g., resource/timeouts, mock boundaries) based on prior fixes for similar failures.
+* **Auto-prioritise tests with ML** — learn from history and prioritize tests most likely to fail or most valuable for quick feedback.
+* **Anomaly detection on test metrics** — detect unusual changes in pass rates, durations, or resource usage (not just threshold alerts).
+
+# Test creation, coverage & maintenance
+
+* **Test generator / scaffolding** — generate unit/integration test stubs (JUnit5) from method signatures, open API specs, or recorded traffic.
+* **Automatic test gap analysis** — highlight critical code paths with little or no test coverage and propose candidate tests.
+* **Test-suite minimisation** — find and recommend a minimal subset of tests that still cover changed code paths for fast pre-merge feedback.
+* **Auto-refactor suggestions for flaky tests** — identify anti-patterns (sleep-based waits, static state) and offer code-level refactor hints.
+* **Mutation testing integration** — run mutation tests periodically and show “weak spots” in the test suite with suggested new assertions.
+
+# Code & dependency intelligence
+
+* **API contract diffing** — compare service API signatures between commits or images; automatically add integration tests when contracts change.
+* **Binary-to-test mapping** — map built artifacts (JAR/Docker image) to tests that exercised them; useful for reproducible re-runs and audits.
+* **Dependency impact analysis** — when a library dependency changes (or a CVE appears), list which tests and services are impacted and schedule targeted runs.
+
+# Advanced debugging & reproducibility
+
+* **Time-travel debugging snapshots** — capture filesystem, env vars, and process trees for failing runs that can be replayed locally or in an ephemeral debug session.
+* **Visual diffs for UI & snapshot tests** — pixel-diff viewer with masking, diff heatmaps, and auto-approval rules for benign changes.
+* **Cross-run correlation** — correlate failures across unrelated tests to expose shared root causes (e.g., shared infra misconfiguration).
+* **Deterministic replay infra** — tie runs to exact artifact hashes and infra manifests for 100% reproducible replays.
+
+# Observability & APM integration (deeper)
+
+* **Traces + test correlation** — link distributed traces (Jaeger/Zipkin) and APM metrics (Datadog/NewRelic) to specific test runs and failing transactions.
+* **Log pattern diffs** — show differences in logs between a good baseline run and a failing run with smart highlight of anomalous lines.
+* **Test-run flamegraphs** — CPU & blocking hotspots per test for diagnosing performance regressions.
+
+# Environment & infra advanced controls
+
+* **Immutable environment snapshots** — versioned, signed environment definitions (images, k8s manifests, primes) used by runs.
+* **Blue/green and shadow testing support** — run tests against production-like shadow traffic without affecting users.
+* **Policy-driven ephemeral infra** — enforce network, bandwidth and external-call policies for test runs (e.g., block bank calls).
+* **Cost-aware scheduling** — choose cheaper runner types when full fidelity is unnecessary; show cost estimates per run.
+
+# Security, compliance & risk
+
+* **Fuzzing & security test orchestration** — schedule fuzz runs and aggregate findings alongside functional tests.
+* **License & export-control gating** — block promotions if code pulls in disallowed licenses or flagged dependencies.
+* **BYOK & HSM for secrets** — allow enterprises to inject customer-managed keys for artifact/encryption.
+* **Compliance-ready audit exports** — preformatted export packages (artifacts + logs + approvals) for auditors with tamper-evidence.
+
+# Developer tooling & integrations
+
+* **IDE plugin** — run/inspect test catalog, trigger reruns and view failures from IntelliJ/VSCode with single-click repro.
+* **Pre-commit / pre-push integration** — lightweight test selection & preflight checks in developer machines that reflect server-side policies.
+* **Test-as-code DSL** — describe orchestration scenarios as code (fixtures, mocks, ordering) that are versionable and reviewable.
+* **Language & framework SDKs** — caller libs for Java/Gradle, Maven, Kotlin, Spring Boot, plus easy test-reporting APIs.
+
+# Workflows & collaboration improvements
+
+* **Failure playbooks / runbooks** — attach rich runbooks to common failure types with step-by-step resolution flows and quick commands.
+* **Escalation and on-call routing** — auto-create incidents based on severity and route to the correct engineer or rotas.
+* **Shared investigation sessions** — collaborative time-boxed session where multiple engineers can annotate, debug and co-run a failing job.
+* **Automatic Jira/Kanban enrichment** — auto-fill failure metadata, attach artifacts and suggest next assignees when creating issues.
+
+# Quality metrics & business mapping
+
+* **Risk scoring & release readiness index** — combine test health, flakiness, coverage gaps and perf regressions into a single readiness score.
+* **Cost-of-failure estimates** — show business impact estimate for failing tests (sla hit, customer-facing risk).
+* **OKR/KPI alignment** — map test/quality metrics to team OKRs and product KPIs to help prioritize engineering work.
+
+# Scheduling, lifecycle & governance
+
+* **Run lifecycle policies** — auto-pause old schedules, escalate retried failures to owners, or auto-close stale triage cards.
+* **Test retirement lifecycle** — mark tests as deprecated, schedule removal, and flag code paths no longer exercised.
+* **Policy-as-code** — express merge-gates, retention, quota and security policies as versioned code checked into repo.
+
+# Scalability, SRE & platform-grade features
+
+* **HA control plane + multi-region runners** — cross-region runner pools and failover strategies for global teams.
+* **Disaster recovery & exportable metadata** — export catalog + run-history bundles to rehydrate another instance.
+* **Prometheus + metrics export** — detailed metrics with labels for billing, monitoring and SLIs.
+
+# UX, adoption & developer experience boosters
+
+* **Smart onboarding flows** — scanner that recommends an initial test plan, required runners, and quick wins for new repos.
+* **Gamification & leaderboards (opt-in)** — reward teams for low flakiness, fast repair times and high coverage.
+* **Mobile app / push notifications** — triage notifications, approve gating actions or kick off re-runs from mobile.
+* **Customizable widgets & dashboards** — shareable dashboards tailored to execs, SREs, or dev teams.
+
+# Extensibility, marketplace & partner ecosystem
+
+* **Extension marketplace** — community/contrib plugins for frameworks, cloud providers, or specialized test types.
+* **SDK for custom runner types** — integrate proprietary CI infra or specialized hardware (GPU, IoT devices).
+* **Contract & supplier test hub** — allow third-party suppliers to publish test results and compliance certificates for their components.
+
+
+
+-------------------------------------------
+-------------------------------------------
+-------------------------------------------
+-------------------------------------------
+
 # Core platform & management (MUST)
 
 * **Central dashboard (MVP)**

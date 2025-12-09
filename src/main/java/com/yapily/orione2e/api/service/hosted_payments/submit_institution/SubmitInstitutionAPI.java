@@ -2,6 +2,7 @@ package com.yapily.orione2e.api.service.hosted_payments.submit_institution;
 
 import com.yapily.orione2e.api.APICall;
 import com.yapily.orione2e.api.HTTPResponseHandler;
+import com.yapily.orione2e.api.service.hosted_payments.submit_institution.payload.response.SubmitInstitutionResponse;
 import java.io.IOException;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.core5.http.ContentType;

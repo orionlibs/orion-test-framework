@@ -2,6 +2,7 @@ package com.yapily.orione2e.api.service.hosted_payments.status;
 
 import com.yapily.orione2e.api.APICall;
 import com.yapily.orione2e.api.HTTPResponseHandler;
+import com.yapily.orione2e.api.service.hosted_payments.status.payload.response.GetPaymentRequestStatusResponse;
 import java.io.IOException;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.config.RequestConfig;

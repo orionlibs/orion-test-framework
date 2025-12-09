@@ -2,6 +2,7 @@ package com.yapily.orione2e.api.service.hosted_payments.payment_request;
 
 import com.yapily.orione2e.api.APICall;
 import com.yapily.orione2e.api.HTTPResponseHandler;
+import com.yapily.orione2e.api.service.hosted_payments.payment_request.payload.response.CreatePaymentRequestResponse;
 import java.io.IOException;
 import java.util.UUID;
 import org.apache.hc.client5.http.classic.methods.HttpPost;

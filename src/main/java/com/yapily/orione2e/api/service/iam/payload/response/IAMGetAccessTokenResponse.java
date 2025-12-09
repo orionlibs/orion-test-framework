@@ -1,4 +1,4 @@
-package com.yapily.orione2e.api.service.iam;
+package com.yapily.orione2e.api.service.iam.payload.response;
 
 import com.yapily.orione2e.api.HTTPResponse;
 import com.yapily.orione2e.api.HTTPResponseHandler;

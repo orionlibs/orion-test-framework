@@ -2,15 +2,15 @@ package com.yapily.orione2e;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.yapily.orione2e.api.service.hosted_payments.authorise.AuthoriseResponse;
-import com.yapily.orione2e.api.service.hosted_payments.exchange_code.authorisation.AuthorisationResponse;
-import com.yapily.orione2e.api.service.hosted_payments.exchange_code.exchange.ExchangeCodeResponse;
-import com.yapily.orione2e.api.service.hosted_payments.execute.ExecutePaymentRequestResponse;
-import com.yapily.orione2e.api.service.hosted_payments.payment_info.GetPaymentRequestInfoResponse;
-import com.yapily.orione2e.api.service.hosted_payments.payment_request.CreatePaymentRequestResponse;
-import com.yapily.orione2e.api.service.hosted_payments.status.GetPaymentRequestStatusResponse;
-import com.yapily.orione2e.api.service.hosted_payments.submit_institution.SubmitInstitutionResponse;
-import com.yapily.orione2e.api.service.iam.IAMGetAccessTokenResponse;
+import com.yapily.orione2e.api.service.hosted_payments.authorise.payload.response.AuthoriseResponse;
+import com.yapily.orione2e.api.service.hosted_payments.exchange_code.authorisation.payload.response.AuthorisationResponse;
+import com.yapily.orione2e.api.service.hosted_payments.exchange_code.exchange.payload.response.ExchangeCodeResponse;
+import com.yapily.orione2e.api.service.hosted_payments.execute.payload.response.ExecutePaymentRequestResponse;
+import com.yapily.orione2e.api.service.hosted_payments.payment_info.payload.response.GetPaymentRequestInfoResponse;
+import com.yapily.orione2e.api.service.hosted_payments.payment_request.payload.response.CreatePaymentRequestResponse;
+import com.yapily.orione2e.api.service.hosted_payments.status.payload.response.GetPaymentRequestStatusResponse;
+import com.yapily.orione2e.api.service.hosted_payments.submit_institution.payload.response.SubmitInstitutionResponse;
+import com.yapily.orione2e.api.service.iam.payload.response.IAMGetAccessTokenResponse;
 import com.yapily.orione2e.extension.failfast.FailFast;
 import com.yapily.orione2e.extension.failfast.FailFastExtension;
 import com.yapily.orione2e.extension.lifecycle.AfterEachTestExecutionListener;

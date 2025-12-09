@@ -1,4 +1,4 @@
-package com.yapily.orione2e.api.service.hosted_payments.payment_request;
+package com.yapily.orione2e.api.service.hosted_payments.payment_request.payload.response;
 
 import com.yapily.orione2e.api.HTTPResponse;
 import com.yapily.orione2e.api.HTTPResponseHandler;
