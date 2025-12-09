@@ -39,6 +39,7 @@ public class Test1 extends E2ETestBase
 
 
     @Test
+    @Scenario(description = "success scenario", tags = {"configuration", "success"})
     void testConfiguration()
     {
         AssertionUtils.assertPublicInstanceFieldValuesContainExactly(accountDetails,
@@ -61,6 +62,7 @@ public class Test1 extends E2ETestBase
 
 
     @Test
+    @Scenario(description = "success scenario", tags = {"simulation", "success"})
     //@Retry(attempts = 3, delayMs = 200)
     @RequiresResource(host = "https://staging.iam.yapily.com", port = 443, timeoutMs = 300)
     @RequiresResource(host = "https://staging-api.yapily.com", port = 443, timeoutMs = 300)
