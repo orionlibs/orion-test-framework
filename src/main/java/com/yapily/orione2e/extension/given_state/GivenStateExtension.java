@@ -19,20 +19,6 @@ public class GivenStateExtension implements BeforeAllCallback, AfterAllCallback,
     private static final String LOADED_FIXTURES = "loaded-fixtures"; // maps to List<LoadedFixture>
 
 
-    private static class LoadedFixture
-    {
-        final String fixturePath;
-        final StateLoader loader;
-
-
-        LoadedFixture(String fixturePath, StateLoader loader)
-        {
-            this.fixturePath = fixturePath;
-            this.loader = loader;
-        }
-    }
-
-
     // ----- BEFORE ALL (class-scoped fixtures) -----
     @Override
     public void beforeAll(ExtensionContext context) throws Exception
@@ -149,13 +135,13 @@ public class GivenStateExtension implements BeforeAllCallback, AfterAllCallback,
             }
         }
     }
-    // ----- helpers -----
 
 
     private ExtensionContext.Store getStoreForClass(ExtensionContext ctx)
     {
         return ctx.getStore(NS);
     }
+    // ----- helpers -----
 
 
     private ExtensionContext.Store getStoreForMethod(ExtensionContext ctx)
@@ -189,6 +175,20 @@ public class GivenStateExtension implements BeforeAllCallback, AfterAllCallback,
             {
                 throw new RuntimeException(t);
             }
+        }
+    }
+
+
+    private static class LoadedFixture
+    {
+        final String fixturePath;
+        final StateLoader loader;
+
+
+        LoadedFixture(String fixturePath, StateLoader loader)
+        {
+            this.fixturePath = fixturePath;
+            this.loader = loader;
         }
     }
 }

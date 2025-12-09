@@ -214,22 +214,6 @@ public class ResourceLeakDetectorExtension implements BeforeEachCallback, AfterE
     }
 
 
-    private static class LeakedThread
-    {
-        final long id;
-        final String name;
-        final ThreadInfo info;
-
-
-        LeakedThread(long id, String name, ThreadInfo info)
-        {
-            this.id = id;
-            this.name = name;
-            this.info = info;
-        }
-    }
-
-
     private Integer tryCountOpenFileDescriptors()
     {
         Path p = Paths.get("/proc/self/fd");
@@ -305,5 +289,21 @@ public class ResourceLeakDetectorExtension implements BeforeEachCallback, AfterE
             return mAnn.get();
         }
         return ctx.getTestClass().map(c -> c.getAnnotation(DetectLeaks.class)).orElse(null);
+    }
+
+
+    private static class LeakedThread
+    {
+        final long id;
+        final String name;
+        final ThreadInfo info;
+
+
+        LeakedThread(long id, String name, ThreadInfo info)
+        {
+            this.id = id;
+            this.name = name;
+            this.info = info;
+        }
     }
 }

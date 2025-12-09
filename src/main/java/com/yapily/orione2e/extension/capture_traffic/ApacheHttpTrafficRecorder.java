@@ -5,6 +5,27 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ApacheHttpTrafficRecorder
 {
+    private final List<Exchange> exchanges = new CopyOnWriteArrayList<>();
+
+
+    void add(Exchange e)
+    {
+        exchanges.add(e);
+    }
+
+
+    public List<Exchange> getExchanges()
+    {
+        return List.copyOf(exchanges);
+    }
+
+
+    public void clear()
+    {
+        exchanges.clear();
+    }
+
+
     public static final class Exchange
     {
         public final String method;
@@ -35,26 +56,5 @@ public class ApacheHttpTrafficRecorder
                             ", responseSnippet='" + responseSnippet + '\'' +
                             '}';
         }
-    }
-
-
-    private final List<Exchange> exchanges = new CopyOnWriteArrayList<>();
-
-
-    void add(Exchange e)
-    {
-        exchanges.add(e);
-    }
-
-
-    public List<Exchange> getExchanges()
-    {
-        return List.copyOf(exchanges);
-    }
-
-
-    public void clear()
-    {
-        exchanges.clear();
     }
 }

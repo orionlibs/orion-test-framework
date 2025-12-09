@@ -26,6 +26,18 @@ public class ChaosRequestInterceptor implements HttpRequestInterceptor
     }
 
 
+    private static long nextLong(Random rnd, long origin, long bound)
+    {
+        if(rnd instanceof ThreadLocalRandom)
+        {
+            return ThreadLocalRandom.current().nextLong(origin, bound);
+        }
+        // Random has no nextLong(origin,bound) pre-Java8; implement simple choice
+        long r = Math.abs(rnd.nextLong());
+        return origin + (r % (bound - origin));
+    }
+
+
     @Override
     public void process(HttpRequest request, EntityDetails entity, HttpContext context) throws HttpException, IOException
     {
@@ -58,17 +70,5 @@ public class ChaosRequestInterceptor implements HttpRequestInterceptor
             }
         }
         // otherwise proceed normally (nothing to do here)
-    }
-
-
-    private static long nextLong(Random rnd, long origin, long bound)
-    {
-        if(rnd instanceof ThreadLocalRandom)
-        {
-            return ThreadLocalRandom.current().nextLong(origin, bound);
-        }
-        // Random has no nextLong(origin,bound) pre-Java8; implement simple choice
-        long r = Math.abs(rnd.nextLong());
-        return origin + (r % (bound - origin));
     }
 }

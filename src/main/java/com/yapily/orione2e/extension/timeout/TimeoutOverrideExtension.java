@@ -15,6 +15,20 @@ import org.opentest4j.TestAbortedException;
 
 public class TimeoutOverrideExtension implements InvocationInterceptor
 {
+    // Shutdown executor when JVM exits
+    static
+    {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try
+            {
+                Executors.newCachedThreadPool().shutdownNow();
+            }
+            catch(Exception ignored)
+            {
+            }
+        }));
+    }
+
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
 
@@ -65,20 +79,5 @@ public class TimeoutOverrideExtension implements InvocationInterceptor
             }
             throw cause;
         }
-    }
-
-
-    // Shutdown executor when JVM exits
-    static
-    {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try
-            {
-                Executors.newCachedThreadPool().shutdownNow();
-            }
-            catch(Exception ignored)
-            {
-            }
-        }));
     }
 }

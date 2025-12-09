@@ -1,6 +1,5 @@
 package com.yapily.orione2e.model;
 
-import com.yapily.orione2e.api.service.applications.CreateSubapplicationAPI;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

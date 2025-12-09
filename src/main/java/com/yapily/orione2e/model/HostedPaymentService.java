@@ -4,11 +4,14 @@ import com.yapily.orione2e.api.service.hosted_payments.authorise.AuthoriseAPI;
 import com.yapily.orione2e.api.service.hosted_payments.authorise.payload.request.AuthoriseRequest;
 import com.yapily.orione2e.api.service.hosted_payments.exchange_code.authorisation.AuthorisationAPI;
 import com.yapily.orione2e.api.service.hosted_payments.exchange_code.exchange.ExchangeCodeAPI;
+import com.yapily.orione2e.api.service.hosted_payments.exchange_code.exchange.payload.request.ExchangeCodeRequest;
 import com.yapily.orione2e.api.service.hosted_payments.execute.ExecutePaymentRequestAPI;
 import com.yapily.orione2e.api.service.hosted_payments.payment_info.GetPaymentRequestInfoAPI;
 import com.yapily.orione2e.api.service.hosted_payments.payment_request.CreatePaymentRequestAPI;
+import com.yapily.orione2e.api.service.hosted_payments.payment_request.payload.request.CreatePaymentRequestRequest;
 import com.yapily.orione2e.api.service.hosted_payments.status.GetPaymentRequestStatusAPI;
 import com.yapily.orione2e.api.service.hosted_payments.submit_institution.SubmitInstitutionAPI;
+import com.yapily.orione2e.api.service.hosted_payments.submit_institution.payload.request.SubmitInstitutionRequest;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,9 +27,9 @@ public class HostedPaymentService
     public Map<String, String> endpoints;
 
 
-    public CreatePaymentRequestAPI createPaymentRequestAPI(String userId, String applicationUserId, String endpoint, String jwt)
+    public CreatePaymentRequestAPI createPaymentRequestAPI(CreatePaymentRequestRequest req, String endpoint, String jwt)
     {
-        return new CreatePaymentRequestAPI(userId, applicationUserId, endpoint, jwt);
+        return new CreatePaymentRequestAPI(req, endpoint, jwt);
     }
 
 
@@ -36,9 +39,9 @@ public class HostedPaymentService
     }
 
 
-    public SubmitInstitutionAPI submitInstitutionAPI(String hostedPaymentRequestId, String hostedPaymentId, String endpoint, String jwt)
+    public SubmitInstitutionAPI submitInstitutionAPI(SubmitInstitutionRequest req, String hostedPaymentRequestId, String hostedPaymentId, String endpoint, String jwt)
     {
-        return new SubmitInstitutionAPI(hostedPaymentRequestId, hostedPaymentId, endpoint, jwt);
+        return new SubmitInstitutionAPI(req, hostedPaymentRequestId, hostedPaymentId, endpoint, jwt);
     }
 
 
@@ -54,9 +57,9 @@ public class HostedPaymentService
     }
 
 
-    public ExchangeCodeAPI exchangeCodeAPI(String code, String idToken, String state, String endpoint, String jwt)
+    public ExchangeCodeAPI exchangeCodeAPI(ExchangeCodeRequest req, String endpoint, String jwt)
     {
-        return new ExchangeCodeAPI(code, idToken, state, endpoint, jwt);
+        return new ExchangeCodeAPI(req, endpoint, jwt);
     }
 
 

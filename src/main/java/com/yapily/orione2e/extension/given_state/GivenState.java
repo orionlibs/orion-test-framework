@@ -16,6 +16,7 @@ public @interface GivenState
      */
     String value();
 
+
     /**
      * Loader class to apply the fixture. Must implement StateLoader and have a no-arg constructor.
      */

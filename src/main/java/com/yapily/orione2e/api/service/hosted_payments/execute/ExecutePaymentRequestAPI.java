@@ -10,7 +10,6 @@ import org.apache.hc.core5.http.io.entity.StringEntity;
 
 public class ExecutePaymentRequestAPI extends APICall
 {
-    String body;
     String jwt;
     String consentToken;
 
@@ -20,7 +19,6 @@ public class ExecutePaymentRequestAPI extends APICall
         super(endpoint.replace("{paymentRequestId}", hostedPaymentRequestId).replace("{hostedPaymentId}", hostedPaymentId));
         this.jwt = jwt;
         this.consentToken = consentToken;
-        this.body = "{}";
     }
 
 
@@ -30,7 +28,7 @@ public class ExecutePaymentRequestAPI extends APICall
         HttpPost request = new HttpPost(endpoint);
         oauthHeader(request, jwt);
         consentTokenHeader(request, consentToken);
-        request.setEntity(new StringEntity(body, ContentType.APPLICATION_JSON));
+        request.setEntity(new StringEntity("{}", ContentType.APPLICATION_JSON));
         HTTPResponseHandler response = super.makeAPICall(request);
         return new ExecutePaymentRequestResponse(response);
     }
